@@ -2,7 +2,7 @@ function load() {
 	console.info('is validating user...')
 	$.ajax({
 		type: 'GET',
-		url: '/learningResources/validateUser.do?method=validateUser',
+		url: '/learningResources/user/validateUser.do?method=validateUser',
 		dataType: 'json',
 		success: function(result) {
 			if (result.status) {
@@ -21,7 +21,7 @@ function load() {
 function logout() {
 	$.ajax({
 		type: 'GET',
-		url: '/learningResources/logout.do?method=logout',
+		url: '/learningResources/user/logout.do?method=logout',
 		dataType: 'json',
 		success: function(result) {
 			if (result.status) {

@@ -41,7 +41,7 @@
 function login(){
 	$.ajax({
 		type: 'POST',
-		url: '/learningResources/login.do',
+		url: '/learningResources/user/login.do',
 		data: {'username': $('#username').val(), 'password': $('#password').val(), 'method': 'loginValidate'},
 		dataType: 'json',
 		success: function(result){

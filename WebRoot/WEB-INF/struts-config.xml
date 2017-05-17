@@ -18,21 +18,21 @@
 	
 	<action-mappings>
 		
-		<action path="/login"
+		<action path="/user/login"
 				type="com.learning.drp.web.actions.LoginAction"
 				name="loginForm"
 				scope="request"
 				parameter="method"
 		/>
 		
-		<action path="/validateUser"
+		<action path="/user/validateUser"
 				type="com.learning.drp.web.actions.LoginAction"
 				name="loginForm"
 				scope="request"
 				parameter="method"
 		/>
 		
-		<action path="/logout"
+		<action path="/user/logout"
 				type="com.learning.drp.web.actions.LoginAction"
 				name="loginForm"
 				scope="request"
