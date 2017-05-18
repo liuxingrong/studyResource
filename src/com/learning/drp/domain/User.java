@@ -1,16 +1,21 @@
 package com.learning.drp.domain;
 
+import java.sql.Date;
+
 public class User {
 	
 	private int id;
 	private String number;
 	private String realname;
+	private String gender;
+	private int age;
 	private String email;
 	private String tel;
 	private String username;
 	private String password;
 	private int type;
 	private int isActive;
+	private Date createTime;
 	
 	public int getId() {
 		return id;
@@ -65,6 +70,30 @@ public class User {
 	}
 	public void setIsActive(int isActive) {
 		this.isActive = isActive;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", number=" + number + ", realname=" + realname + ", gender=" + gender + ", age="
+				+ age + ", email=" + email + ", tel=" + tel + ", username=" + username + ", password=" + password
+				+ ", type=" + type + ", isActive=" + isActive + ", createTime=" + createTime + "]";
 	}
 	
 }
