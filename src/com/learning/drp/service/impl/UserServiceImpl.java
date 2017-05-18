@@ -26,6 +26,7 @@ public class UserServiceImpl extends HibernateDaoSupport implements UserService{
 	public boolean isRegister(String username) {
 		String hql = "from User where username='" + username + "' and isActive = 1";
         Query query = this.getSession().createQuery(hql);
+        User user = new User();
         List<User> list = (List<User>) query.list();
         if (list.size() > 0) {
 			return true;
