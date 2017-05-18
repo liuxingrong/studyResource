@@ -13,7 +13,7 @@
 		
 		<property name="hibernate.hbm2ddl.auto">update</property>
 	
-		<!-- <mapping resource="com/learning/drp/domain/Item.hbm.xml" /> -->
+		<mapping resource="com/learning/drp/domain/User.hbm.xml" />
 
 	</session-factory>
 </hibernate-configuration>

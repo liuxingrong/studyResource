@@ -18,26 +18,26 @@
 	
 	<action-mappings>
 		
-		<action path="/user/login"
-				type="com.learning.drp.web.actions.LoginAction"
+		<action path="/user"
+				type="org.springframework.web.struts.DelegatingActionProxy"
 				name="loginForm"
 				scope="request"
 				parameter="method"
 		/>
 		
-		<action path="/user/validateUser"
-				type="com.learning.drp.web.actions.LoginAction"
+		<!-- <action path="/user/validateUser"
+				type="org.springframework.web.struts.DelegatingActionProxy"
 				name="loginForm"
 				scope="request"
 				parameter="method"
 		/>
 		
 		<action path="/user/logout"
-				type="com.learning.drp.web.actions.LoginAction"
+				type="org.springframework.web.struts.DelegatingActionProxy"
 				name="loginForm"
 				scope="request"
 				parameter="method"
-		/>
+		/> -->
 	
 	</action-mappings>
 	

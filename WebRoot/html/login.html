@@ -23,6 +23,12 @@
           <input id="password" name="" type="password" placeholder="密码" class="input-text size-L">
         </div>
       </div>
+      <div class="row cl" id="msgDiv" style='display:none;'>
+        <label class="form-label col-xs-3"></label>
+        <div class="formControls col-xs-8">
+          <span id="msg" style='color:red;'></span>
+        </div>
+      </div>
       <div class="row cl">
         <div class="formControls col-xs-8 col-xs-offset-3">
           <input name="" type="submit" onclick="login()" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
@@ -41,12 +47,15 @@
 function login(){
 	$.ajax({
 		type: 'POST',
-		url: '/learningResources/user/login.do',
+		url: '/learningResources/user.do?method=login',
 		data: {'username': $('#username').val(), 'password': $('#password').val(), 'method': 'loginValidate'},
 		dataType: 'json',
 		success: function(result){
 			if (result.status) {
 				location.href = '/learningResources/html/index.html';
+			} else {
+				$('#msg').html('用户名或密码错误');
+				$('#msgDiv').show();
 			}
 		},
 		error: function(xhr, error){

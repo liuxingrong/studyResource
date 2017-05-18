@@ -7,7 +7,7 @@
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 	
-	<bean name="loginAction" class="com.learning.drp.web.actions.LoginAction" scope="prototype">
+	<bean name="/user" class="com.learning.drp.web.actions.LoginAction" scope="prototype">
 		<property name="userService" ref="userService"/>
 	</bean>
 </beans>
