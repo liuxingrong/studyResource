@@ -31,10 +31,10 @@
 	<!-- 事务的传播特性 -->	
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="add*" propagation="REQUIRED"/>
-			<tx:method name="del*" propagation="REQUIRED"/>
-			<tx:method name="modify*" propagation="REQUIRED"/>
-			<tx:method name="*" propagation="REQUIRED" read-only="true"/>
+			<tx:method name="save*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="delete*" propagation="REQUIRED"/>
+			<tx:method name="*" propagation="REQUIRED"/>
 		</tx:attributes>
 	</tx:advice>
 </beans>
