@@ -16,6 +16,7 @@ public class UserServiceImpl extends HibernateDaoSupport implements UserService{
 		System.out.println("here. userService......");
 		String hql = "from User where username='" + username + "'and password='" + password +"'and isActive = " + 1;
         Query query = this.getSession().createQuery(hql);
+        User user = new User();
         List<User> list = (List<User>) query.list();
         System.out.println(list);
         if (list.size() > 0) {

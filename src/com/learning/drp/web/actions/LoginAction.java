@@ -25,7 +25,9 @@ public class LoginAction extends DispatchAction {
 			throws Exception {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		if(userService.validateUser(username, password)){
+		Boolean falg = userService.validateUser(username, password);
+		System.out.println(falg);
+		if(falg){
 			//登录成功
 			request.getSession().setAttribute("user", username);
 			Result result = new Result();
