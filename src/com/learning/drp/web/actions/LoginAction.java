@@ -8,6 +8,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
+import com.learning.drp.domain.User;
 import com.learning.drp.service.UserService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
@@ -25,12 +26,13 @@ public class LoginAction extends DispatchAction {
 			throws Exception {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		if(userService.validateUser(username, password)){
+		User user = userService.validateUser(username, password);
+		if(user != null){
 			//登录成功
-			request.getSession().setAttribute("user", username);
+			user.setPassword(null);
+			request.getSession().setAttribute("user", user);
 			Result result = new Result();
 			result.setStatus(true);
-			result.setData(true);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}else {
 			//登录失败
@@ -44,12 +46,14 @@ public class LoginAction extends DispatchAction {
 	public ActionForward validateUser(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-			if(request.getSession().getAttribute("user") != null) {
-				System.out.println(request.getSession().getAttribute("user"));
-				response.getWriter().write(Utils.ObjToJson(new Result(true, null)));
-			}else{
-				response.getWriter().write(Utils.ObjToJson(new Result(false, null)));
-			}
+		response.setCharacterEncoding("utf-8");
+		User user = (User) request.getSession().getAttribute("user");
+		if(user != null) {
+			System.out.println(user);
+			response.getWriter().write(Utils.ObjToJson(new Result(true, user)));
+		}else{
+			response.getWriter().write(Utils.ObjToJson(new Result(false, null)));
+		}
 		return null;
 	}
 	
@@ -62,4 +66,24 @@ public class LoginAction extends DispatchAction {
 		return null;
 	}
 	
+	public ActionForward register(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		response.setCharacterEncoding("utf-8");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		if(!userService.isRegister(username)){
+			try {
+				userService.register(username, password);
+				response.getWriter().write(Utils.ObjToJson(new Result(true, null)));
+			} catch (Exception e) {
+				log.error(e.getMessage());
+				response.getWriter().write(Utils.ObjToJson(new Result(false, "插入错误")));
+			}
+			
+		} else {
+			response.getWriter().write(Utils.ObjToJson(new Result(false, "该用户已存在，请重新注册")));
+		}
+		return null;
+	}
 }

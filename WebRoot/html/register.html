@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>用户（学生）注册</title>
+<meta charset="utf-8"/>
+<script src='/learningResources/static/common/header.js'></script>
+</head>
+
+<body>
+<input type="hidden" id="TenantId" name="TenantId" value="" />
+<div class="loginWraper2">
+  <div id="loginform" class="loginBox">
+    <div class="form form-horizontal">
+      <div class="row cl">
+        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+        <div class="formControls col-xs-8">
+          <input id="username" name="" type="text" placeholder="用户名" class="input-text size-L">
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+        <div class="formControls col-xs-8">
+          <input id="password" name="" type="password" placeholder="密码" class="input-text size-L">
+        </div>
+      </div>
+      <div class="row cl">
+        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+        <div class="formControls col-xs-8">
+          <input id="password2" name="" type="password" placeholder="请再次输入密码" class="input-text size-L">
+        </div>
+      </div>
+      <div class="row cl" id='msgDiv' style='display:none;'>
+        <label class="form-label col-xs-3"></label>
+        <div class="formControls col-xs-8">
+          <span id='msg' style='color:red;'></span>
+        </div>
+      </div>
+      <div class="row cl" id="msgDiv" style='display:none;'>
+        <label class="form-label col-xs-3"></label>
+        <div class="formControls col-xs-8">
+          <span id="msg" style='color:red;'></span>
+        </div>
+      </div>
+      <div class="row cl">
+        <div class="formControls col-xs-8 col-xs-offset-3">
+          <input name="" type="submit" onclick="register()" class="btn btn-success radius size-L" value="&nbsp;注&nbsp;&nbsp;&nbsp;&nbsp;册&nbsp;">
+          <input name="" type="reset" onclick='reset()' style="margin-left:20px" class="btn btn-default radius size-L" value="&nbsp;清&nbsp;&nbsp;&nbsp;&nbsp;空&nbsp;">
+          <a href='/learningResources/html/index.html' style='margin-left:40px; color:white;'>返回登录</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">Copyright by <a href="#">learning resources</a></div>
+
+</body>
+</html>
+
+<script>
+function register(){
+    var username = $('username').val();
+    var password = $('#password').val();
+    var password2 = $('#password2').val();
+    if (username == '' || password == '' || password2 == '') {
+        $('#msg').html('信息填写不完整');
+        $('#msgDiv').show();
+        return;
+    }
+    if(password !== password2) {
+        $('#msg').html('两次输入密码不一致');
+        $('#msgDiv').show();
+        return;
+    }
+	$.ajax({
+		type: 'POST',
+		url: '/learningResources/user.do?method=register',
+		data: {'username': $('#username').val(), 'password': $('#password').val(), 'method': 'register'},
+		dataType: 'json',
+		success: function(result){
+			if (result.status) {
+                alert('恭喜你，注册成功');
+				location.href = '/learningResources/html/index.html';
+			} else {
+				$('#msg').html(result.msg);
+				$('#msgDiv').show();
+			}
+		},
+		error: function(xhr, error){
+			console.info(error);
+		}
+	})
+}
+
+function reset() {
+    $('#username').val('');
+    $('#password').val('');
+    $('#password2').val('');
+}
+</script>

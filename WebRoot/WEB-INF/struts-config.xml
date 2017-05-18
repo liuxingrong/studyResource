@@ -24,20 +24,6 @@
 				scope="request"
 				parameter="method"
 		/>
-		
-		<!-- <action path="/user/validateUser"
-				type="org.springframework.web.struts.DelegatingActionProxy"
-				name="loginForm"
-				scope="request"
-				parameter="method"
-		/>
-		
-		<action path="/user/logout"
-				type="org.springframework.web.struts.DelegatingActionProxy"
-				name="loginForm"
-				scope="request"
-				parameter="method"
-		/> -->
 	
 	</action-mappings>
 	
