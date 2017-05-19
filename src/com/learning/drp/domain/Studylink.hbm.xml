@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.learning.drp.domain.Item" table="t_items">
+		<id name="itemNo">
+			<generator class="assigned"/>
+		</id>
+		<property name="linkName"/>
+		<property name="linkUrl"/>
+		<property name="userId"/>
+		<many-to-one name="createTime"/>
+	</class>
+</hibernate-mapping>
