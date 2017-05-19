@@ -74,7 +74,7 @@ public class LoginAction extends DispatchAction {
 		String password = request.getParameter("password");
 		if(!userService.isRegister(username)){
 			try {
-				userService.register(username, password);
+				userService.Register(username, password);
 				response.getWriter().write(Utils.ObjToJson(new Result(true, null)));
 			} catch (Exception e) {
 				log.error(e.getMessage());

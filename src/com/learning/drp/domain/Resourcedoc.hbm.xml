@@ -4,13 +4,14 @@
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.learning.drp.domain.Item" table="t_items">
-		<id name="itemNo">
-			<generator class="assigned"/>
+		<id name="id">
+			<generator class="native"/>
 		</id>
 		<property name="resourceName"/>
+		<property name="resourceDescription"/>
 		<property name="resourcePath"/>
 		<property name="resourceType"/>
-		<many-to-one name="userId"/>
-		<many-to-one name="craeteTime"/>
+		<property name="userId"/>
+		<property name="craeteTime"/>
 	</class>
 </hibernate-mapping>

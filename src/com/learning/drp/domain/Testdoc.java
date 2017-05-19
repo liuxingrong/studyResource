@@ -7,7 +7,7 @@ public class Testdoc {
 	private String testDocName;
 	private String testDocPath;
 	private String testDocAnswer;
-	private int userId;
+	private Integer userId;
 	private Date createTime;
 	
 	public int getId() {
@@ -28,17 +28,18 @@ public class Testdoc {
 	public void setTestDocPath(String testDocPath) {
 		this.testDocPath = testDocPath;
 	}
+	
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 	public String getTestDocAnswer() {
 		return testDocAnswer;
 	}
 	public void setTestDocAnswer(String testDocAnswer) {
 		this.testDocAnswer = testDocAnswer;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
 	}
 	public Date getCreateTime() {
 		return createTime;
@@ -46,19 +47,5 @@ public class Testdoc {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	@Override
-	public String toString() {
-		return "Testdoc [id=" + id + ", testDocName=" + testDocName
-				+ ", testDocPath=" + testDocPath + ", testDocAnswer="
-				+ testDocAnswer + ", userId=" + userId + ", createTime="
-				+ createTime + ", getId()=" + getId() + ", getTestDocName()="
-				+ getTestDocName() + ", getTestDocPath()=" + getTestDocPath()
-				+ ", getTestDocAnswer()=" + getTestDocAnswer()
-				+ ", getUserId()=" + getUserId() + ", getCreateTime()="
-				+ getCreateTime() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + "]";
-	}
-	
 	
 }

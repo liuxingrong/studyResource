@@ -35,7 +35,7 @@ public class UserServiceImpl extends HibernateDaoSupport implements UserService{
 	}
 
 	@Override
-	public void register(String username, String password) {
+	public void Register(String username, String password) {
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(password);
@@ -43,6 +43,8 @@ public class UserServiceImpl extends HibernateDaoSupport implements UserService{
 		user.setIsActive(1);
 		user.setCreateTime(new Date(System.currentTimeMillis()));
 		this.getSession().save(user);
+		
 	}
+
 
 }
