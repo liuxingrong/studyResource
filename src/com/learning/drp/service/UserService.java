@@ -8,6 +8,6 @@ public interface UserService {
 	
 	public boolean isRegister(String username);
 	
-	public void Register(String username, String password);
+	public void register(String username, String password);
 
 }

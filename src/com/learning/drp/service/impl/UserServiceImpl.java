@@ -35,7 +35,7 @@ public class UserServiceImpl extends HibernateDaoSupport implements UserService{
 	}
 
 	@Override
-	public void Register(String username, String password) {
+	public void register(String username, String password) {
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(password);

@@ -8,7 +8,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
+import com.learning.drp.domain.Score;
 import com.learning.drp.domain.User;
+import com.learning.drp.service.ScoreService;
 import com.learning.drp.service.UserService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
@@ -16,7 +18,6 @@ import com.learning.util.Utils;
 public class LoginAction extends DispatchAction {
 	
 	private UserService userService;
-	
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
@@ -74,7 +75,7 @@ public class LoginAction extends DispatchAction {
 		String password = request.getParameter("password");
 		if(!userService.isRegister(username)){
 			try {
-				userService.Register(username, password);
+				userService.register(username, password);
 				response.getWriter().write(Utils.ObjToJson(new Result(true, null)));
 			} catch (Exception e) {
 				log.error(e.getMessage());
