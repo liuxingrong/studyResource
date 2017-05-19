@@ -9,40 +9,34 @@
 <body>
 <input type="hidden" id="TenantId" name="TenantId" value="" />
 <div class="loginWraper2">
-  <div id="loginform" class="loginBox">
+  <form id="form" class="loginBox">
     <div class="form form-horizontal">
       <div class="row cl">
-        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+        <label class="form-label col-xs-2"><i class="Hui-iconfont">&#xe60d;</i></label>
         <div class="formControls col-xs-8">
-          <input id="username" name="" type="text" placeholder="用户名" class="input-text size-L">
+          <input id="username" name="username" type="text" placeholder="用户名 4-10位" class="input-text size-L" style='width:420px' />
         </div>
       </div>
       <div class="row cl">
-        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+        <label class="form-label col-xs-2"><i class="Hui-iconfont">&#xe60e;</i></label>
         <div class="formControls col-xs-8">
-          <input id="password" name="" type="password" placeholder="密码" class="input-text size-L">
+          <input id="password" name="password" type="password" placeholder="密码 6-16位" class="input-text size-L" style='width:420px' />
         </div>
       </div>
       <div class="row cl">
-        <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+        <label class="form-label col-xs-2"><i class="Hui-iconfont">&#xe60e;</i></label>
         <div class="formControls col-xs-8">
-          <input id="password2" name="" type="password" placeholder="请再次输入密码" class="input-text size-L">
+          <input id="password2" name="password2" type="password" placeholder="请再次输入密码 6-16位" class="input-text size-L" style='width:420px' />
         </div>
       </div>
       <div class="row cl" id='msgDiv' style='display:none;'>
-        <label class="form-label col-xs-3"></label>
+        <label class="form-label col-xs-2"></label>
         <div class="formControls col-xs-8">
           <span id='msg' style='color:red;'></span>
         </div>
       </div>
-      <div class="row cl" id="msgDiv" style='display:none;'>
-        <label class="form-label col-xs-3"></label>
-        <div class="formControls col-xs-8">
-          <span id="msg" style='color:red;'></span>
-        </div>
-      </div>
       <div class="row cl">
-        <div class="formControls col-xs-8 col-xs-offset-3">
+        <div class="formControls col-xs-8 col-xs-offset-2">
           <input name="" type="submit" onclick="register()" class="btn btn-success radius size-L" value="&nbsp;注&nbsp;&nbsp;&nbsp;&nbsp;册&nbsp;">
           <input name="" type="reset" onclick='reset()' style="margin-left:20px" class="btn btn-default radius size-L" value="&nbsp;清&nbsp;&nbsp;&nbsp;&nbsp;空&nbsp;">
           <a href='/learningResources/html/index.html' style='margin-left:40px; color:white;'>返回登录</a>
@@ -52,43 +46,66 @@
   </div>
 </div>
 <div class="footer">Copyright by <a href="#">learning resources</a></div>
-
 </body>
 </html>
 
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+
 <script>
+
+$(function(){
+    $("#form").validate({
+		rules:{
+			username:{
+				required:true,
+                rangelength:[4,10]
+			},
+			password:{
+				required:true,
+                rangelength:[6,16]
+			},
+			password2:{
+				required:true,
+                rangelength:[6,16]
+			},
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			register();
+		}
+	});
+    
+});
+
 function register(){
-    var username = $('username').val();
-    var password = $('#password').val();
-    var password2 = $('#password2').val();
-    if (username == '' || password == '' || password2 == '') {
-        $('#msg').html('信息填写不完整');
-        $('#msgDiv').show();
-        return;
-    }
-    if(password !== password2) {
+    if($('#password').val() !== $('#password2').val()) {
         $('#msg').html('两次输入密码不一致');
         $('#msgDiv').show();
         return;
     }
-	$.ajax({
-		type: 'POST',
-		url: '/learningResources/user.do?method=register',
-		data: {'username': $('#username').val(), 'password': $('#password').val(), 'method': 'register'},
-		dataType: 'json',
-		success: function(result){
-			if (result.status) {
-                alert('恭喜你，注册成功');
-				location.href = '/learningResources/html/index.html';
-			} else {
-				$('#msg').html(result.msg);
-				$('#msgDiv').show();
-			}
-		},
-		error: function(xhr, error){
-			console.info(error);
-		}
-	})
+    $.ajax({
+        type: 'POST',
+        url: '/learningResources/user.do?method=register',
+        data: {'username': $('#username').val(), 'password': $('#password').val(), 'method': 'register'},
+        dataType: 'json',
+        success: function(result){
+        if (result.status) {
+                    alert('恭喜你，注册成功');
+            location.href = '/learningResources/html/index.html';
+        } else {
+            $('#msg').html(result.msg);
+            $('#msgDiv').show();
+        }
+        },
+        error: function(xhr, error){
+        console.info(error);
+        }
+    });
 }
 
 function reset() {
@@ -96,4 +113,5 @@ function reset() {
     $('#password').val('');
     $('#password2').val('');
 }
+
 </script>
