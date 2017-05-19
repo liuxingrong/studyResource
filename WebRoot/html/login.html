@@ -5,7 +5,7 @@
 <script src='/learningResources/static/common/header.js'></script>
 </head>
 
-<body>
+<body onload='load()' style='display:none;'>
 <input type="hidden" id="TenantId" name="TenantId" value="" />
 <div class="loginWraper">
   <div id="loginform" class="loginBox">
@@ -43,6 +43,24 @@
 </html>
 
 <script>
+// 查看是否已存在session，若存在，跳转到首页
+function load() {
+	$.ajax({
+		type: 'GET',
+		url: '/learningResources/user.do?method=validateUser',
+		dataType: 'json',
+		success: function(result) {
+			if (result.status) {
+				location.href = '/learningResources/html/index.html';
+			} else {
+				$('body').show();
+			}
+		},
+		error: function() {
+			alert('error')
+		}
+	})
+}
 function login(){
 	$.ajax({
 		type: 'POST',
