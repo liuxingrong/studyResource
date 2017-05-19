@@ -4,23 +4,23 @@ import java.sql.Date;
 
 public class User {
 	
-	private int id;
+	private Integer id;
 	private String number;
 	private String realname;
 	private String gender;
-	private int age;
+	private Integer age;
 	private String email;
 	private String tel;
 	private String username;
 	private String password;
-	private int type;
-	private int isActive;
+	private Integer type;
+	private Integer isActive;
 	private Date createTime;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getNumber() {
@@ -59,16 +59,16 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
-	public int getIsActive() {
+	public Integer getIsActive() {
 		return isActive;
 	}
-	public void setIsActive(int isActive) {
+	public void setIsActive(Integer isActive) {
 		this.isActive = isActive;
 	}
 	public String getGender() {
@@ -77,10 +77,10 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 	public Date getCreateTime() {

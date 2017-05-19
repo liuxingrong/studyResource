@@ -59,4 +59,3 @@ dynamicLoading.css(rootPath + "/lib/Hui-iconfont/1.0.8/iconfont.css");
 
 dynamicLoading.css(rootPath + "/static/h-ui.admin/css/H-ui.admin.css");
 dynamicLoading.css(rootPath + "/static/h-ui.admin/skin/default/skin.css");
-
