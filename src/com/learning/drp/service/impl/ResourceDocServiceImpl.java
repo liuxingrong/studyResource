@@ -18,13 +18,13 @@ public class ResourceDocServiceImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public List<ResourceDocService> findAll(Resourcedoc resourcedoc) {
+	public List<Resourcedoc> findAll(Resourcedoc resourcedoc) {
 		String hql = "from Resourcedoc where 1=1";
 		if (resourcedoc.getResourceType() != null) {
 			hql += " and resourceType =" + resourcedoc.getResourceType();
 		}
 		Query query = this.getSession().createQuery(hql);
-		List<ResourceDocService> list = (List<ResourceDocService>) query.list();
+		List<Resourcedoc> list = (List<Resourcedoc>) query.list();
 		if (list.isEmpty()) {
 			return null;
 		}
@@ -32,8 +32,8 @@ public class ResourceDocServiceImpl extends HibernateDaoSupport implements
 	}
 
 	@Override
-	public ResourceDocService find(int id) {
-		ResourceDocService resourceDoc = (ResourceDocService) this.getSession()
+	public Resourcedoc find(int id) {
+		Resourcedoc resourceDoc = (Resourcedoc) this.getSession()
 				.get(ResourceDocService.class, id);
 		if (resourceDoc == null) {
 			return null;

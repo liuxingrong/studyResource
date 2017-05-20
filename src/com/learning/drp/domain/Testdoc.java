@@ -1,6 +1,7 @@
 package com.learning.drp.domain;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 public class Testdoc {
 	private int id;
