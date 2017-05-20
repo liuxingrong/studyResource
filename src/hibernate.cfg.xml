@@ -7,7 +7,7 @@
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/studyResource</property>
 		<property name="hibernate.connection.username">root</property>
-		<property name="hibernate.connection.password">123123</property>
+		<property name="hibernate.connection.password">root</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hibernate.show_sql">true</property>
 		
@@ -15,6 +15,9 @@
 	
 		<mapping resource="com/learning/drp/domain/User.hbm.xml" />
 		<mapping resource="com/learning/drp/domain/Score.hbm.xml" />
-
+		<mapping resource="com/learning/drp/domain/Resourcedoc.hbm.xml" />
+		<mapping resource="com/learning/drp/domain/Studylink.hbm.xml" />
+		<mapping resource="com/learning/drp/domain/Testdoc.hbm.xml" />
+		<mapping resource="com/learning/drp/domain/Weights.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

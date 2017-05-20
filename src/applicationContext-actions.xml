@@ -10,4 +10,12 @@
 	<bean name="/user" class="com.learning.drp.web.actions.LoginAction" scope="prototype">
 		<property name="userService" ref="userService"/>
 	</bean>
+	
+	<bean name="/resourceDoc" class="com.learning.drp.web.actions.ResourceDocAction" scope="prototype">
+		<property name="resourceDocService" ref="resourceDocService"/>
+	</bean>
+	
+	<bean name="/score" class="com.learning.drp.web.actions.ScoreAction" scope="prototype">
+		<property name="scoreService" ref="scoreService"/>
+	</bean>
 </beans>

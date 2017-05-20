@@ -7,10 +7,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-
-import com.learning.drp.domain.Score;
 import com.learning.drp.domain.User;
-import com.learning.drp.service.ScoreService;
 import com.learning.drp.service.UserService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
