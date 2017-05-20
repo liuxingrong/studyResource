@@ -3,15 +3,15 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="com.learning.drp.domain.Item" table="t_items">
-		<id name="itemNo">
-			<generator class="assigned"/>
+	<class name="com.learning.drp.domain.Score" table="score">
+		<id name="id">
+			<generator class="native"/>
 		</id>
 		<property name="type"/>
 		<property name="score"/>
 		<property name="errorDetail"/>
-		<many-to-one name="userId"/>
-		<many-to-one name="docId"/>
+		<property name="userId"/>
+		<property name="docId"/>
 		<property name="createTime"/>
 		<property name="changeTime"/>
 	</class>
