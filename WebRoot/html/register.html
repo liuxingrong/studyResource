@@ -61,15 +61,18 @@ $(function(){
 		rules:{
 			username:{
 				required:true,
-                rangelength:[4,10]
+        minlength:4,
+				maxlength:10
 			},
 			password:{
 				required:true,
-                rangelength:[6,16]
+        minlength:6,
+				maxlength:16
 			},
 			password2:{
 				required:true,
-                rangelength:[6,16]
+        minlength:6,
+				maxlength:16
 			},
 		},
 		onkeyup:false,
@@ -95,7 +98,7 @@ function register(){
         dataType: 'json',
         success: function(result){
         if (result.status) {
-                    alert('恭喜你，注册成功');
+            alert('恭喜你，注册成功');
             location.href = '/learningResources/html/index.html';
         } else {
             $('#msg').html(result.msg);

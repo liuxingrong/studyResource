@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>资源学习</title>
+<script src="/learningResources/static/common/header.js"></script>
+<script src="/learningResources/static/common/utils.js"></script>
+<script src="/learningResources/static/common/validateUser.js"></script>
+</head>
+<body onload='load()' style='display:none;'>
+<div>
+    <video src="" controls="controls">
+        your browser does not support the video tag
+    </video>
+</div>
+
+</body>
+</html>
+
+<script>
+$(function(){
+    var link = getUrlParam('link');
+    alert(link);
+    $('video').attr('src', link);
+})
+</script>

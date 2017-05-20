@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>资源管理</title>
+<title>试卷管理</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
 <script src="/learningResources/static/common/validateUser.js"></script>
@@ -10,13 +10,13 @@
 <body onload='load()' style='display:none;'>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资源管理 <span class="c-gray en">&gt;</span><span id='head'>试卷管理</span><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container" style='margin-top: -20px;'>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <span id='addButton'>添加试卷</span></a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="test_add()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <span id='addButton'>添加试卷</span></a></span></div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
-				<th width="70" id='title'>试卷名称</th>
-                <th width="100" id='title'>试卷描述</th>
+				<th width="70">试卷名称</th>
+                <th width="100">试卷描述</th>
 				<th width="40">上传时间</th>
 				<th width="90">创建人</th>
 				<th width="100">操作</th>
@@ -29,9 +29,9 @@
 				<td>2014-06-11</td>
                 <td>tony-frank</td>
                 <td>
-                    <a title="下载" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>
-                    <a title="编辑" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                    <a title="删除" href="javascript:;" onclick="member_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    <a title="下载" href="javascript:;" onclick="test_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>
+                    <a title="编辑" href="javascript:;" onclick="test_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                    <a title="删除" href="javascript:;" onclick="test_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                 </td>
             </tr>
 		</tbody>
@@ -43,44 +43,43 @@
 <script type="text/javascript" src="/learningResources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
 $(function(){
-
 	var str = ''
 	for (var i=0; i<20; i++) {
 		str += 
 			'<tr class="text-c">' +
-				'<td>2012年湖北黄冈测试</td>' +
+				'<th>2012年湖北黄冈测试</th>' +
 				'<td>测试学生们第一单元掌握情况</td>' +
 				'<td>2014-06-11</td>' +
                 '<td>tony-frank</td>' +
 				'<td class="td-manage">' +
-                '<a title="下载" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
-                '<a title="编辑" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-                '<a title="删除" href="javascript:;" onclick="member_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+					'<a title="下载" download="docs" href="http://img04.tooopen.com/images/20131115/sy_47505221718.jpg" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
+					'<a title="编辑" href="javascript:;" onclick="test_edit(3)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+					'<a title="删除" href="javascript:;" onclick="test_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
                 '</td>' +
 			'</tr>';
 	};
 	
 	$('tbody').html(str);
 	$('.table-sort').dataTable({
-		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"aaSorting": [[ 2, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,2]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[4]}// 制定列不参与排序
 		]
 	});
 	
 });
-/*用户-添加*/
-function member_add(title,url,w,h){
-	layer_show(title,url,w,h);
+/*试卷-添加*/
+function test_add(){
+	layer_show('添加试卷', 'test-add.html', '600', '500');
 }
-/*用户-编辑*/
-function member_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
+/*试卷-编辑*/
+function test_edit(id){
+	layer_show('编辑试卷', 'test-modify.html?id=' + id, '600', '400');
 }
-/*用户-删除*/
-function member_del(obj,id){
+/*试卷-删除*/
+function test_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
