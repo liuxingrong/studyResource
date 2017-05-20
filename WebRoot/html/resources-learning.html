@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>权重管理</title>
+<script src="/learningResources/static/common/header.js"></script>
+<script src="/learningResources/static/common/utils.js"></script>
+<script src="/learningResources/static/common/validateUser.js"></script>
+</head>
+<body onload='load()' style='display:none;'>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资源管理 <span class="c-gray en">&gt;</span><span id='head'></span><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<article class="page-container">
+	<form class="form form-horizontal" id="form">
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">#</span></label>
+			<div class="formControls col-xs-8 col-sm-9">
+                <span>系统已随机为你分配了一个<span id="name"></span></span>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><span id='title'></span></label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="部署过程回顾" id="name" readonly>
+			</div>
+		</div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>描述</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea id="description" value="详情描述" cols="4" rows="50" class="textarea" readonly></textarea>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span></label>
+			<div class="formControls col-xs-8 col-sm-9" id="download">
+                <a title="下载" download="docs" href="http://img04.tooopen.com/images/20131115/sy_47505221718.jpg" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
+			</div>
+		</div>
+	</form>
+</article>
+
+<script type="text/javascript">
+$(function(){
+     var type = getUrlParam('type');
+     if (type == 1) {
+         $('#name').html('项目部署');
+         $('#head').html('项目部署学习');
+         $('#title').html('项目部署名称');
+     } else {
+         $('#name').html('实践任务');
+         $('#head').html('实践任务学习');
+         $('#title').html('实践任务名称');
+     }
+
+     // 先判断是否已有改成绩，若有则不能下载
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
