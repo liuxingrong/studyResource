@@ -25,6 +25,19 @@
 				parameter="method"
 		/>
 	
+		<action path="/resourceDoc"
+				type="org.springframework.web.struts.DelegatingActionProxy"
+				name="resourceDoc"
+				scope="request"
+				parameter="method"
+		/>
+		
+		<action path="/score"
+				type="org.springframework.web.struts.DelegatingActionProxy"
+				name="score"
+				scope="request"
+				parameter="method"
+		/>
 	</action-mappings>
 	
     <message-resources parameter="MessageResources" />

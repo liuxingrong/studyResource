@@ -22,14 +22,14 @@ public interface ResourceDocService {
 	 * @param resourceType
 	 * @return
 	 */
-	public List<ResourceDocService> findAll(Resourcedoc resourcedoc);
+	public List<Resourcedoc> findAll(Resourcedoc resourcedoc);
 	
 	/**
 	 * 根据id获取实体
 	 * @param id
 	 * @return
 	 */
-	public ResourceDocService find(int id);
+	public Resourcedoc find(int id);
 	
 	/**
 	 * 修改
