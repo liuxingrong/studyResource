@@ -18,4 +18,8 @@
 	<bean name="/score" class="com.learning.drp.web.actions.ScoreAction" scope="prototype">
 		<property name="scoreService" ref="scoreService"/>
 	</bean>
+	
+	<bean name="/studylink" class="com.learning.drp.web.actions.StudylinkAction" scope="prototype">
+		<property name="studylinkService" ref="studylinkService"/>
+	</bean>
 </beans>

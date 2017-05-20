@@ -38,6 +38,13 @@
 				scope="request"
 				parameter="method"
 		/>
+		
+		<action path="/studylink"
+				type="org.springframework.web.struts.DelegatingActionProxy"
+				name="studylink"
+				scope="request"
+				parameter="method"
+		/>
 	</action-mappings>
 	
     <message-resources parameter="MessageResources" />
