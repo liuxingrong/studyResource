@@ -9,4 +9,8 @@
 	<bean id="userService" class="com.learning.drp.service.impl.UserServiceImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="scoreService" class="com.learning.drp.service.impl.ScoreServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>

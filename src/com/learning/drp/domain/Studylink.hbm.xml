@@ -3,13 +3,13 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="com.learning.drp.domain.Testdoc" table="testdoc">
+	<class name="com.learning.drp.domain.Studylink" table="studylink">
 		<id name="id">
 			<generator class="native"/>
 		</id>
-		<property name="testDocName"/>
-		<property name="testDocPath"/>
-		<property name="testDocAnswer"/>
+		<property name="linkName"/>
+		<property name="linkDescription"/>
+		<property name="linkUrl"/>
 		<property name="userId"/>
 		<property name="createTime"/>
 	</class>

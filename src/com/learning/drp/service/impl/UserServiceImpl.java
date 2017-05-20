@@ -43,6 +43,8 @@ public class UserServiceImpl extends HibernateDaoSupport implements UserService{
 		user.setIsActive(1);
 		user.setCreateTime(new Date(System.currentTimeMillis()));
 		this.getSession().save(user);
+		
 	}
+
 
 }

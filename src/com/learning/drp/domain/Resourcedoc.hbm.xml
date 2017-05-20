@@ -3,14 +3,15 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="com.learning.drp.domain.Testdoc" table="testdoc">
+	<class name="com.learning.drp.domain.Resourcedoc" table="resourcedoc">
 		<id name="id">
 			<generator class="native"/>
 		</id>
-		<property name="testDocName"/>
-		<property name="testDocPath"/>
-		<property name="testDocAnswer"/>
+		<property name="resourceName"/>
+		<property name="resourceDescription"/>
+		<property name="resourcePath"/>
+		<property name="resourceType"/>
 		<property name="userId"/>
-		<property name="createTime"/>
+		<property name="craeteTime"/>
 	</class>
 </hibernate-mapping>
