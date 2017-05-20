@@ -1,0 +1,79 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>添加学习资源</title>
+<script src="/learningResources/static/common/header.js"></script>
+<script src="/learningResources/static/common/utils.js"></script>
+<script src="/learningResources/static/common/validateUser.js"></script>
+</head>
+<body onload='load()' style='display:none;'>
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-study-link-add">
+		<div class="row cl">
+			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>资源名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>资源描述：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea id="description" name="description" cols="4" rows="50" class="textarea"  placeholder="说点什么..." onKeyUp="$.Huitextarealength(this,100)"></textarea>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>资源链接：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="link" name="link">
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-3 col-sm-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</article>
+</body>
+</html>
+
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.skin-minimal input').iCheck({
+		checkboxClass: 'icheckbox-blue',
+		radioClass: 'iradio-blue',
+		increaseArea: '20%'
+	});
+	
+	$("#form-study-link-add").validate({
+		rules:{
+			name:{
+				required:true,
+			},
+			description:{
+				required:true,
+			},
+			link:{
+				required:true,
+			},
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+			var id = getUrlParam('id');
+			modify(id);
+		}
+	});
+});
+
+function modify(id) {
+    alert('modify' + id);
+}
+</script> 
