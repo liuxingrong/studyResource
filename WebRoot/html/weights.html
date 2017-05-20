@@ -89,13 +89,13 @@ function loadData() {
 }
 
 function updateWeight() {
-        if (parseFloat($('#study').val()) + parseFloat($('#test').val()) + parseFloat($('#project').val()) + parseFloat($('#practice').val()) != 1) {
-            $('#msg').html('总和不为1，请重新填写');
-            $('#msgDiv').show();
-        }else{
-            alert('updateWeight....')
-        }
-    }
+	if (parseFloat($('#study').val()) + parseFloat($('#test').val()) + parseFloat($('#project').val()) + parseFloat($('#practice').val()) != 1) {
+		$('#msg').html('总和不为1，请重新填写');
+		$('#msgDiv').show();
+	}else{
+		alert('updateWeight....')
+	}
+}
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->
 </body>

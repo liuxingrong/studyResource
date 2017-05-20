@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>权重管理</title>
+<script src="/learningResources/static/common/header.js"></script>
+<script src="/learningResources/static/common/validateUser.js"></script>
+</head>
+<body onload='load()' style='display:none;'>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资源管理 <span class="c-gray en">&gt;</span><span id='head'>权重管理</span><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<article class="page-container">
+	<form class="form form-horizontal" id="form">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学习分数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span id="study">85</span>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>测试分数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span id="test">88</span>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>项目部署分数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<span id="project">90</span>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>实践任务分数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+                <span id="practice">78</span>
+			</div>
+		</div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>总分数：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+                <span id="practice">86</span>
+			</div>
+		</div>
+        <div class="row cl" id='msgDiv' style='display: none;'>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span></label>
+			<div class="formControls col-xs-8 col-sm-9">
+                <span id="weights-introduce">(学习分数：30%， 测试：30%， 项目部署：20%， 实践任务：20%， )</span>
+			</div>
+		</div>
+	</form>
+</article>
+
+
+<!--请在下方写此页面业务相关的脚本--> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+
+<script type="text/javascript">
+$(function(){
+    setTimeout(function(){
+        var userId = user.id;
+        alert(userId + '  load data......');
+    }, 200);
+     
+});
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
