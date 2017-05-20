@@ -1,6 +1,7 @@
 package com.learning.drp.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -55,5 +56,16 @@ public class ScoreServiceImpl extends HibernateDaoSupport implements
 	@Override
 	public void del(Score score) {
 		this.getSession().delete(score);
+	}
+
+	@Override
+	public List<Map<String, Object>> getUserScore() {
+		String hql = "select * from scoredata";
+		Query query = this.getSession().createSQLQuery(hql);
+		List<Map<String, Object>> list = query.list();
+		if (list.isEmpty()) {
+			return null;
+		}
+		return list;
 	}
 }
