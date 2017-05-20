@@ -1,6 +1,8 @@
 package com.learning.drp.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.learning.drp.domain.Score;
 
 /**
@@ -19,5 +21,7 @@ public interface ScoreService {
 	public void update(Score score);
 	
 	public void del(Score score);
+	
+	public List<Map<String, Object>> getUserScore();
 
 }

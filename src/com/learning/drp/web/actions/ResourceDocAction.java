@@ -130,11 +130,10 @@ public class ResourceDocAction extends DispatchAction{
 		response.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
 		Resourcedoc resourcedoc = new Resourcedoc();
-		resourcedoc.setId(Integer.valueOf(id));
 		Result result = new Result();
 		try{
 			if(id == null){
-				throw new Exception("请选择要删除的课程");
+				throw new Exception("请选择课程");
 			}
 			resourcedoc = resourceDocService.find(Integer.valueOf(id));
 			result.setData(resourcedoc);
