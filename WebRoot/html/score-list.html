@@ -15,10 +15,10 @@
 		<thead>
 			<tr class="text-c">
 				<th width="100">学生姓名</th>
-				<th width="70">学习</th>
-                <th width="70">测试</th>
-				<th width="40">项目部署</th>
-				<th width="90">实践任务</th>
+				<th width="70">学习成绩</th>
+                <th width="70">测试成绩</th>
+				<th width="40">项目部署成绩</th>
+				<th width="90">实践任务成绩</th>
                 <th width="90">总成绩</th>
 				<th width="100">操作</th>
 			</tr>
@@ -32,8 +32,8 @@
                 <td>70</td>
                 <td>78</td>
 				<td class="td-manage">
-                    <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html?id=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                    <a title="清空" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    <a title="编辑" href="javascript:;" onclick="score_edit('编辑','score-add.html?id=1','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                    <a title="清空" href="javascript:;" onclick="score_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                 </td>
 			</tr>
 		</tbody>
@@ -49,37 +49,37 @@ $(function(){
 	for (var i=0; i<20; i++) {
 		str += 
 			'<tr class="text-c">' +
-				'<td>tom</td>' +
+				'<th>tom</th>' +
 				'<td>80</td>' +
                 '<td>90</td>' +
 				'<td>60</td>' +
                 '<td>70</td>' +
                 '<td>78</td>' +
 				'<td class="td-manage">' +
-                    '<a title="编辑" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-                    '<a title="清空" href="javascript:;" onclick="member_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+                    '<a title="编辑" href="javascript:;" onclick="score_edit(3)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+                    '<a title="清空" href="javascript:;" onclick="score_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
                 '</td>' +
             '</tr>';
 	};
 	
 	$('tbody').html(str);
 	$('.table-sort').dataTable({
-		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"aaSorting": [[ 0, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,2]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[6]}// 制定列不参与排序
 		]
 	});
 	
 });
 /*用户-编辑*/
-function member_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
+function score_edit(id){
+	layer_show('编辑试卷', 'score-modify.html?id=' + id, '600', '400');
 }
 /*用户-删除*/
-function member_del(obj,id){
-	layer.confirm('确认要清空吗？',function(index){
+function score_del(obj,id){
+	layer.confirm('确认要清空该同学成绩吗？',function(index){
 		$.ajax({
 			type: 'POST',
 			url: '',

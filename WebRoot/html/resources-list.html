@@ -10,7 +10,7 @@
 <body onload='load()' style='display:none;'>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资源管理 <span class="c-gray en">&gt;</span><span id='head'></span><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container" style='margin-top: -20px;'>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <span id='addButton'></span></a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="resources_add()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> <span id='addButton'></span></a></span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -29,9 +29,9 @@
 				<td>2014-06-11</td>
                 <td>tony-frank</td>
 				<td>
-                    <a title="下载" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>
-                    <a title="编辑" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                    <a title="删除" href="javascript:;" onclick="member_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    <a title="下载" href="javascript:;" onclick="resources_download()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>
+                    <a title="编辑" href="javascript:;" onclick="resources_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                    <a title="删除" href="javascript:;" onclick="resources_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                 </td>
 			</tr>
 		</tbody>
@@ -42,9 +42,9 @@
 <script type="text/javascript" src="/learningResources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="/learningResources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+var type = null;
 $(function(){
-
-	var type = getUrlParam('type');
+	type = getUrlParam('type');
     $('#head').html(type == 1 ? '项目部署管理' : '实践任务管理');
 	$('#addButton').html(type == 1 ? '添加项目部署' : '添加实践任务');
 	$('#title').html(type == 1 ? '项目部署名称' : '实践任务名称');
@@ -58,34 +58,34 @@ $(function(){
 				'<td>2014-06-11</td>' +
                 '<td>tony-frank</td>' +
 				'<td class="td-manage">' +
-					'<a title="下载" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
-					'<a title="编辑" href="javascript:;" onclick="member_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-					'<a title="删除" href="javascript:;" onclick="member_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+					'<a title="下载" download="docs" href="http://img04.tooopen.com/images/20131115/sy_47505221718.jpg" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
+					'<a title="编辑" href="javascript:;" onclick="resources_edit(2)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+					'<a title="删除" href="javascript:;" onclick="resources_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
 				'</td>' +
 			'</tr>';
 	};
 	
 	$('tbody').html(str);
 	$('.table-sort').dataTable({
-		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		"aaSorting": [[ 2, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		  {"orderable":false,"aTargets":[0,2]}// 制定列不参与排序
+		  {"orderable":false,"aTargets":[4]}// 制定列不参与排序
 		]
 	});
 	
 });
-/*用户-添加*/
-function member_add(title,url,w,h){
-	layer_show(title,url,w,h);
+/*资源-添加*/
+function resources_add(){
+	layer_show('添加资源', 'resources-add.html?type=' + type, '600', '400');
 }
-/*用户-编辑*/
-function member_edit(title,url,id,w,h){
-	layer_show(title,url,w,h);
+/*资源-编辑*/
+function resources_edit(id){
+	layer_show('编辑资源', 'resources-modify.html?id=' + id + '&type=' + type, '600', '400');
 }
-/*用户-删除*/
-function member_del(obj,id){
+/*资源-删除*/
+function resources_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
