@@ -1,11 +1,14 @@
 package com.learning.drp.web.actions;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -13,16 +16,24 @@ import org.apache.struts.actions.DispatchAction;
 
 import com.learning.drp.domain.Resourcedoc;
 import com.learning.drp.service.ResourceDocService;
+import com.learning.drp.service.UserManageService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
 
 public class ResourceDocAction extends DispatchAction{
+	
 	private ResourceDocService resourceDocService;
+	
+	private UserManageService userManageService;
 	
 	public void setResourceDocService(ResourceDocService resourceDocService) {
 		this.resourceDocService = resourceDocService;
 	}
 	
+	public void setUserManageService(UserManageService userManageService) {
+		this.userManageService = userManageService;
+	}
+
 	public ActionForward getData(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
@@ -30,10 +41,21 @@ public class ResourceDocAction extends DispatchAction{
 		Resourcedoc resourcedoc = new Resourcedoc();
 		resourcedoc.setResourceType(Integer.valueOf(type));
 		List<Resourcedoc> resourcedocList = resourceDocService.findAll(resourcedoc);
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 		Result result = new Result();
 		if(resourcedocList!=null){
+			for(int i=0;i<resourcedocList.size();i++){
+				Resourcedoc en = resourcedocList.get(i);
+				Map<String, Object> map = new HashedMap();
+				map.put("id", en.getId());
+				map.put("resourceName", en.getResourceName());
+				map.put("resourceDescription", en.getResourceDescription());
+				map.put("createDate", en.getCraeteTime());
+				map.put("realname", userManageService.findById(en.getUserId()).getRealname());
+				list.add(map);
+			}
 			result.setStatus(true);
-			result.setData(resourcedocList);
+			result.setData(list);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}else{
 			result.setStatus(false);

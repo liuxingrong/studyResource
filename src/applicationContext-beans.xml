@@ -16,7 +16,9 @@
 	<bean id="scoreService" class="com.learning.drp.service.impl.ScoreServiceImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+	<bean id="userManageService" class="com.learning.drp.service.impl.UserManageServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="studylinkService" class="com.learning.drp.service.impl.StudylinkServiceImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
