@@ -51,6 +51,9 @@ $(function(){
 		radioClass: 'iradio-blue',
 		increaseArea: '20%'
 	});
+
+	var id = getUrlParam('id');
+	loadPage(id);
 	
 	$("#form-study-link-add").validate({
 		rules:{
@@ -68,13 +71,36 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			var id = getUrlParam('id');
 			modify(id);
 		}
 	});
 });
 
+function loadPage(id) {
+	handleAjax('/studyLink.do?method=find&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#name').val(data.linkName);
+		$('#description').val(data.linkDescription);
+		$('#link').val(data.linkUrl);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 function modify(id) {
-    alert('modify' + id);
+   	var params = {
+		id: id,
+		linkName: $('#name').val(),
+		linkDescription: $('description').val(),
+		linkUrl: $('#link').val(),
+	};
+	handleAjax('/studyLink.do?method=update', params).done(function(result) {
+		if (result.status) {
+			layer.msg('修改成功!', {icon:1,time:1000});
+			refresh();
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 </script> 

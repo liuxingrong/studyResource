@@ -10,7 +10,7 @@
 </head>
 <body onload='load()' style='display:none;'>
 <article class="page-container">
-	<form action="" method="post" class="form form-horizontal" id="form-study-link-add">
+	<form class="form form-horizontal" id="form-study-link-add">
 		<div class="row cl">
 			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>资源名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -77,6 +77,20 @@ $(function(){
 });
 
 function add(userId) {
-    alert(userId)
+	// 添加资源
+	var params = {
+		userId: userId,
+		linkName: $('#name').val(),
+		linkDescription: $('description').val(),
+		linkUrl: $('#link').val(),
+	}
+	handleAjax('/studyLink.do?method=add', params).done(function(result){
+		if(result.status){
+			layer.msg('添加成功!', {icon:1,time:1000});
+			refresh();
+		}
+	}).fail(function(xhr, error){
+		alert('error');
+	});
 }
 </script> 

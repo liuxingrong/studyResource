@@ -67,9 +67,13 @@ $(function(){
 	loadList(type);
 });
 
+/*用户-列表*/
 function loadList(type) {
 	handleAjax('/user?method=getData').done(function(result){
 		var data = result.data;
+		if (data == null) {
+			$('tbody').html('暂无数据');
+		}
 		var str = '';
 		for (var i=0; i<data.length; i++) {
 			str += 
@@ -130,7 +134,7 @@ function change_password(){
 }
 /*用户-删除*/
 function user_del(id){
-	layer.confirm('确认要删除改用户吗？',function(index){
+	layer.confirm('确认要删除改该用户吗？',function(index){
 		handleAjax('/user?method=delete&id=' + id).done(function(result){
 			if (result.status) {
 				layer.msg('已删除!', {icon:1,time:1000});
