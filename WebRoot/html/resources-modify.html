@@ -54,6 +54,9 @@ $(function(){
         $('#title').html('实践任务');
         $('#titleDoc').html('实践任务文档');
     }
+
+	var id = getUrlParam('id');
+	loadPage(id);
 	
 	$("#resources-add").validate({
 		rules:{
@@ -71,13 +74,34 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			 var id = getUrlParam('id');
              modify(id);
 		}
 	});
 });
 
+function loadPage(id) {
+	handleAjax('/resourceDoc.do?method=find&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#resourceName').val(data.resourceName);
+		$('#resourceDescription').val(data.resourceDescription);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 function modify(id) {
-    alert(id)
+   	var params = {
+		id: id,
+		resourceName: $('#resourceName').val(),
+		resourceDescription: $('#resourceDescription').val(),
+	};
+	handleAjax('/resourceDoc.do?method=update', params).done(function(result) {
+		if (result.status) {
+			layer.msg('修改成功!', {icon:1,time:1000});
+			refresh();
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 </script> 

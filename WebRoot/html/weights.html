@@ -57,7 +57,7 @@
 
 <script type="text/javascript">
 $(function(){
-    loadData();
+    loadPage();
 	$("#form").validate({
 		rules:{
 			study:{
@@ -86,8 +86,16 @@ $(function(){
 	});
 });
 
-function loadData() {
-    alert('load data...')
+function loadPage() {
+    handleAjax('/weights.do?method=find').done(function(result) {
+		var data = result.data;
+		$('#study').val(data.studyWeights);
+		$('#test').val(data.testWeights);
+		$('#project').val(data.projectWeights);
+		$('#practice').val(data.practiceWeights);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 
 function updateWeight() {
@@ -95,7 +103,20 @@ function updateWeight() {
 		$('#msg').html('总和不为1，请重新填写');
 		$('#msgDiv').show();
 	}else{
-		alert('updateWeight....')
+		var params = {
+			studyWeights: $('#study').val(),
+			testWeights: $('#test').val(),
+			projectWeights: $('#project').val(),
+			practiceWeights: $('#practice').val(),
+		};
+		handleAjax('/weights.do?method=update', params).done(function(result) {
+			if (result.status) {
+				layer.msg('修改成功!', {icon:1,time:1000});
+				refresh();
+			}
+		}).fail(function(xhr, error){
+			alert('error')
+		})
 	}
 }
 </script> 

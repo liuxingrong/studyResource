@@ -48,12 +48,32 @@
 		</div>
 	</form>
 </article>
+</body>
+</html>
 
 <script type="text/javascript">
 $(function(){
-     // 先判断是否已有改成绩，若有则不能下载
+	loadPage(userId);
 });
+
+function loadPage(userId, type) {
+	handleAjax('/score.do?method=find&id=' + userId).done(function(result) {
+		if(result.status) {
+			//无成绩，随机生成一个资源
+			handleAjax('/test.do?method=random').done(function(result) {
+				var data = result.data;
+				$('#name').val(data.testName);
+				$('#description').val(data.testDescription);
+			}).fail(function(xhr, error){
+				alert('error')
+			})
+		}else{
+			//有成绩,不能下载
+			$('#download').html('你已有成绩，不能下载！')
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 </script> 
-<!--/请在上方写此页面业务相关的脚本-->
-</body>
-</html>
