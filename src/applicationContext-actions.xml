@@ -22,4 +22,8 @@
 	<bean name="/studylink" class="com.learning.drp.web.actions.StudylinkAction" scope="prototype">
 		<property name="studylinkService" ref="studylinkService"/>
 	</bean>
+	
+	<bean name="/testdoc" class="com.learning.drp.web.actions.TestDocAction" scope="prototype">
+		<property name="testdocService" ref="testdocService"/>
+	</bean>
 </beans>

@@ -45,6 +45,13 @@
 				scope="request"
 				parameter="method"
 		/>
+		
+		<action path="/testdoc"
+				type="org.springframework.web.struts.DelegatingActionProxy"
+				name="testdoc"
+				scope="request"
+				parameter="method"
+		/>
 	</action-mappings>
 	
     <message-resources parameter="MessageResources" />

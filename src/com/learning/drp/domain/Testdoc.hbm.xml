@@ -10,6 +10,7 @@
 		<property name="testDocName"/>
 		<property name="testDocPath"/>
 		<property name="testDocAnswer"/>
+		<property name="testDocDescription"/>
 		<property name="userId"/>
 		<property name="createTime"/>
 	</class>
