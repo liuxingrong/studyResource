@@ -13,6 +13,7 @@
 	
 	<bean name="/resourceDoc" class="com.learning.drp.web.actions.ResourceDocAction" scope="prototype">
 		<property name="resourceDocService" ref="resourceDocService"/>
+		<property name="userManageService" ref="userManageService"/>
 	</bean>
 	
 	<bean name="/score" class="com.learning.drp.web.actions.ScoreAction" scope="prototype">
@@ -22,10 +23,12 @@
 	
 	<bean name="/studylink" class="com.learning.drp.web.actions.StudylinkAction" scope="prototype">
 		<property name="studylinkService" ref="studylinkService"/>
+		<property name="userManageService" ref="userManageService"/>
 	</bean>
 	
 	<bean name="/testdoc" class="com.learning.drp.web.actions.TestDocAction" scope="prototype">
 		<property name="testdocService" ref="testdocService"/>
+		<property name="userManageService" ref="userManageService"/>
 	</bean>
 	
 	<bean name="/weights" class="com.learning.drp.web.actions.WeightsAction" scope="prototype">

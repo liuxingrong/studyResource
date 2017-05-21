@@ -1,18 +1,19 @@
 package com.learning.drp.web.actions;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-
 import com.learning.drp.domain.Testdoc;
 import com.learning.drp.service.TestdocService;
+import com.learning.drp.service.UserManageService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
 
@@ -20,8 +21,14 @@ public class TestDocAction extends DispatchAction {
 
 	private TestdocService testdocService;
 
+	private UserManageService userManageService;
+
 	public void setTestdocService(TestdocService testdocService) {
 		this.testdocService = testdocService;
+	}
+	
+	public void setUserManageService(UserManageService userManageService) {
+		this.userManageService = userManageService;
 	}
 	
 	public ActionForward getData(ActionMapping mapping, ActionForm form,
@@ -31,8 +38,19 @@ public class TestDocAction extends DispatchAction {
 		Testdoc testdoc = new Testdoc();
 		try{
 			List<Testdoc> list = testdocService.findAll(testdoc);
+			List<Map<String, Object>> list1 = new ArrayList<Map<String,Object>>();
+			for(int i=0;i<list.size();i++){
+				Testdoc en = list.get(i);
+				Map<String, Object> map = new HashedMap();
+				map.put("id", en.getId());
+				map.put("testDocName", en.getTestDocName());
+				map.put("testDocDescription", en.getTestDocDescription());
+				map.put("createTime", en.getCreateTime());
+				map.put("realname", userManageService.findById(en.getUserId()).getRealname());
+				list1.add(map);
+			}
 			result.setStatus(true);
-			result.setData(list);
+			result.setData(list1);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}catch(Exception e){
 			result.setStatus(false);
