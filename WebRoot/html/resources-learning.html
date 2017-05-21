@@ -20,13 +20,13 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><span id='title'></span></label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="部署过程回顾" id="name" readonly>
+				<input type="text" class="input-text" value="部署过程回顾" id="resourceName" readonly>
 			</div>
 		</div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>描述</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea id="description" value="详情描述" cols="4" rows="50" class="textarea" readonly></textarea>
+				<textarea id="resourceDescription" value="详情描述" cols="4" rows="50" class="textarea" readonly></textarea>
 			</div>
 		</div>
         <div class="row cl">
@@ -37,6 +37,8 @@
 		</div>
 	</form>
 </article>
+</body>
+</html>
 
 <script type="text/javascript">
 $(function(){
@@ -51,9 +53,33 @@ $(function(){
          $('#title').html('实践任务名称');
      }
 
-     // 先判断是否已有改成绩，若有则不能下载
+	 setTimeout(function(){
+        var userId = user.id;
+        loadPage(userId, type);
+    }, 200);
+     
 });
+
+function loadPage(userId, type) {
+	// 先判断是否已有改成绩，若有则不能下载
+	handleAjax('/score.do?method=find&id=' + userId).done(function(result) {
+		if(result.status) {
+			//无成绩，随机生成一个资源
+			handleAjax('/score.do?method=random&type=' + type).done(function(result) {
+				var data = result.data;
+				$('#resourceName').val(data.resourceName);
+				$('#resourceDescription').val(data.resourceDescription);
+			}).fail(function(xhr, error){
+				alert('error')
+			})
+		}else{
+			//有成绩,不能下载
+			$('#download').html('你已有成绩，不能下载！')
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 </script> 
-<!--/请在上方写此页面业务相关的脚本-->
-</body>
-</html>
+
