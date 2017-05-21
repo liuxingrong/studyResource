@@ -139,7 +139,7 @@ function userModify(id){
 		tel: $('#tel').val(),
 		email: $('#email').val(),
 	};
-	handleAjax('/user.do?method=add').done(function(result) {
+	handleAjax('/user.do?method=add', params).done(function(result) {
 		if (result.status) {
 			layer.msg('修改成功!', {icon:1,time:1000});
 			refresh();
