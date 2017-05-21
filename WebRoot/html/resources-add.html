@@ -10,17 +10,17 @@
 </head>
 <body onload='load()' style='display:none;'>
 <article class="page-container">
-	<form action="" method="post" class="form form-horizontal" id="resources-add">
+	<form class="form form-horizontal" id="resources-add" enctype="multipart/form-data">
 		<div class="row cl">
             <label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span><span id='title'></span></label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+				<input type="text" class="input-text" value="" placeholder="" id="resourceName" name="resourceName">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>资源描述：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea id="description" name="description" cols="4" rows="50" class="textarea"  placeholder="说点什么..." onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea id="resourceDescription" name="resourceDescription" cols="4" rows="50" class="textarea"  placeholder="说点什么..." onKeyUp="$.Huitextarealength(this,100)"></textarea>
 			</div>
 		</div>
         <div class="row cl">
@@ -29,7 +29,7 @@
                 <span class="btn-upload form-group">
                     <input class="input-text upload-url" type="text" name="uploadfile" id="uploadfile" readonly nullmsg="请添加文档！" style="width:200px;display:block;float:left;">
                     <a href="javascript:void();" class="btn btn-primary radius upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-                    <input type="file" multiple name="file-2" class="input-file">
+                    <input type="file" multiple name="file" class="input-file">
 				</span>
             </div>
 		</div>
@@ -90,6 +90,15 @@ $(function(){
 });
 
 function add(userId) {
-    alert(userId)
+	console.info(new FormData($('#resources-add')[0]))
+	// 添加资源
+	handleAjax('/resource.do?method=add', new FormData($('#resources-add')[0])).done(function(result){
+		if(result.status){
+			layer.msg('添加成功!', {icon:1,time:1000});
+			refresh();
+		}
+	}).fail(function(xhr, error){
+		alert('error');
+	});
 }
 </script> 

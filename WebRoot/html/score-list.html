@@ -45,24 +45,6 @@
 <script type="text/javascript" src="/learningResources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
 $(function(){
-	var str = ''
-	for (var i=0; i<20; i++) {
-		str += 
-			'<tr class="text-c">' +
-				'<th>tom</th>' +
-				'<td>80</td>' +
-                '<td>90</td>' +
-				'<td>60</td>' +
-                '<td>70</td>' +
-                '<td>78</td>' +
-				'<td class="td-manage">' +
-                    '<a title="编辑" href="javascript:;" onclick="score_edit(3)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-                    '<a title="清空" href="javascript:;" onclick="score_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
-                '</td>' +
-            '</tr>';
-	};
-	
-	$('tbody').html(str);
 	$('.table-sort').dataTable({
 		"aaSorting": [[ 0, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
@@ -71,27 +53,64 @@ $(function(){
 		  {"orderable":false,"aTargets":[6]}// 制定列不参与排序
 		]
 	});
+
+	
+	getWeights();
 	
 });
-/*用户-编辑*/
+/*获取分数权重*/
+function getWeights(userId) {
+	handleAjax('/weights.do?method=find').done(function(result) {
+		loadList(result.data);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+/*成绩-列表*/
+function loadList(weights) {
+	handleAjax('/score?method=getData').done(function(result){
+		var data = result.data;
+		if (data == null) {
+			$('tbody').html('暂无数据');
+		}
+		var str = ''
+		for (var i=0; i<data.length; i++) {
+			str += 
+				'<tr class="text-c">' +
+					'<th>' + data.realname + '</th>' +
+					'<td>' + data.score1 + '</td>' +
+					'<td>' + data.score2 + '</td>' +
+					'<td>' + data.score3 + '</td>' +
+					'<td>' + data.score4 + '</td>' +
+					'<td>' + data.score1 + '</td>' +
+					'<td class="td-manage">' +
+						'<a title="编辑" href="javascript:;" onclick="score_edit(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+						'<a title="清空" href="javascript:;" onclick="score_del(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+					'</td>' +
+				'</tr>';
+		};
+		$('tbody').html(str);
+	}).fail(function(xhr, error){
+		alert('error');
+	});
+}
+/*成绩-编辑*/
 function score_edit(id){
 	layer_show('编辑试卷', 'score-modify.html?id=' + id, '600', '400');
 }
-/*用户-删除*/
-function score_del(obj,id){
+/*成绩-删除*/
+function score_del(id){
 	layer.confirm('确认要清空该同学成绩吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").remove();
-				layer.msg('已清空!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
+		handleAjax('/score?method=delete&id=' + id).done(function(result){
+			if (result.status) {
+				layer.msg('已清空!', {icon:1,time:1000});
+				refresh();
+			} else {
+				layer.msg(result.msg, {icon:1,time:1000});
+			}
+		}).fail(function(xhr, error){
+			alert('error');
+		});	
 	});
 }
 </script> 

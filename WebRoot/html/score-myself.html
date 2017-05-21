@@ -38,7 +38,7 @@
         <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>总分数：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-                <span id="practice">86</span>
+                <span id="all">86</span>
 			</div>
 		</div>
         <div class="row cl" id='msgDiv' style='display: none;'>
@@ -49,16 +49,37 @@
 		</div>
 	</form>
 </article>
+</body>
+</html>
+
 
 <script type="text/javascript">
 $(function(){
     setTimeout(function(){
         var userId = user.id;
-        alert(userId + '  load data......');
-    }, 200);
-     
+		getWeights(userId);
+        loadPage();
+    }, 200);   
 });
+
+function getWeights(userId) {
+	handleAjax('/weights.do?method=find').done(function(result) {
+		loadPage(userId, result.data);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
+function loadPage(userId, weights) {
+	handleAjax('/score.do?method=find&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#study').val(data.score1);
+		$('#test').val(data.score2);
+		$('#project').val(data.score3);
+		$('#practice').val(data.score4);
+		$('#all').val(data.score2);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
 </script> 
-<!--/请在上方写此页面业务相关的脚本-->
-</body>
-</html>

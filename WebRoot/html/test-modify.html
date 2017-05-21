@@ -52,6 +52,9 @@ $(function(){
 		increaseArea: '20%'
 	});
 
+	var id = getUrlParam('id');
+	loadPage(id);
+
 	$("#test-add").validate({
 		rules:{
 			name:{
@@ -71,13 +74,36 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			var id = getUrlParam('id');
 			modify(id);
 		}
 	});
 });
 
+function loadPage(id) {
+	handleAjax('/testDoc.do?method=find&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#name').val(data.testDocName);
+		$('#description').val(data.testDocDescription);
+		$('#answer').val(data.testDocAnswer)
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 function modify(id) {
-    alert(id)
+    var params = {
+		id: id,
+		testDocName: $('#name').val(),
+		testDocDescription: $('#description').val(),
+		testDocAnswer: $('#answer').val(),
+	};
+	handleAjax('/testDoc.do?method=update', params).done(function(result) {
+		if (result.status) {
+			layer.msg('修改成功!', {icon:1,time:1000});
+			refresh();
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 </script> 
