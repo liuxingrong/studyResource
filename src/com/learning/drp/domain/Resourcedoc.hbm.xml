@@ -12,6 +12,6 @@
 		<property name="resourcePath"/>
 		<property name="resourceType"/>
 		<property name="userId"/>
-		<property name="craeteTime"/>
+		<property name="createTime"/>
 	</class>
 </hibernate-mapping>

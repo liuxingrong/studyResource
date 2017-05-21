@@ -87,7 +87,7 @@ public class ResourceDocAction extends DispatchAction{
 			resourcedoc.setResourceDescription(resourceDescription);
 			resourcedoc.setUserId(Integer.valueOf(userId));
 			resourcedoc.setResourceType(Integer.valueOf(resourceType));
-			resourcedoc.setCraeteTime(new Date(System.currentTimeMillis()));
+			resourcedoc.setCreateTime(new Date(System.currentTimeMillis()));
 			resourcedoc.setResourcePath(resourcePath);
 			resourceDocService.add(resourcedoc);
 			response.getWriter().write(Utils.ObjToJson(new Result(true, null)));

@@ -62,6 +62,7 @@ function loadList() {
 		var data = result.data;
 		if (data == null) {
 			$('tbody').html('暂无数据');
+			return;
 		}
 		var str = ''
 		for (var i=0; i<data.length; i++) {
@@ -69,7 +70,7 @@ function loadList() {
 				'<tr class="text-c">' +
 					'<th>' + data[i].testDocName + '</th>' +
 					'<td>' + data[i].testDocDescription + '</td>' +
-					'<td>' + data[i].createTime + '</td>' +
+					'<td>' + getDate(data[i].createTime) + '</td>' +
 					'<td>' + data[i].realname + '</td>' +
 					'<td class="td-manage">' +
 						'<a title="下载" download="docs" href="' + data[i].testDocPath + '" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
@@ -96,8 +97,9 @@ function test_del(id){
 	layer.confirm('确认要删除改该试卷吗？',function(index){
 		handleAjax('testdoc.do?method=delete&id=' + id).done(function(result){
 			if (result.status) {
-				layer.msg('已删除!', {icon:1,time:1000});
-				refresh();
+				layer.msg('已删除!', {icon:1,time:1000}, function(){
+					window.location.reload();
+				});
 			} else {
 				layer.msg(result.msg, {icon:1,time:1000});
 			}

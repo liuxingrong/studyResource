@@ -15,7 +15,14 @@ function handleAjax(url, param, type) {
 	});
 }
 
-//刷新
+// 刷新
 function refresh() {
-	location.replace(location.href);
+	window.parent.location.reload();
+	var index = parent.layer.getFrameIndex(window.name);
+	parent.layer.close(index);;
+}
+
+// 根据createTime获取时间（日期）
+function getDate(createTime) {
+	return createTime.year + '-' + (createTime.month + 1) + '-' + createTime.day;
 }

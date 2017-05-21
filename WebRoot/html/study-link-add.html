@@ -86,8 +86,9 @@ function add(userId) {
 	}
 	handleAjax('studylink.do?method=add', params).done(function(result){
 		if(result.status){
-			layer.msg('添加成功!', {icon:1,time:1000});
-			refresh();
+			layer.msg('添加成功!', {icon:1,time:1000}, function(){
+				refresh();
+			});
 		}
 	}).fail(function(xhr, error){
 		alert('error');

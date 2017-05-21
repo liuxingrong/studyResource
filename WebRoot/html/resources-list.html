@@ -67,6 +67,7 @@ function loadList(type) {
 		var data = result.data;
 		if (data == null) {
 			$('tbody').html('暂无数据');
+			return;
 		}
 		var str = ''
 		for (var i=0; i<data.length; i++) {
@@ -74,7 +75,7 @@ function loadList(type) {
 				'<tr class="text-c">' +
 					'<th width="100">' + data[i].resourceName + '</th>' +
 					'<td>' + data[i].resourceDescription + '</td>' +
-					'<td>' + data[i].createDate + '</td>' +
+					'<td>' + getDate(data[i].createTime) + '</td>' +
 					'<td>' + data[i].realname + '</td>' +
 					'<td class="td-manage">' +
 						'<a title="下载" download="docs" href="' + data[i].resourcePath + '" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
@@ -101,8 +102,9 @@ function resources_del(id){
 	layer.confirm('确认要删除改该资源吗？',function(index){
 		handleAjax('/resourceDoc?method=delete&id=' + id).done(function(result){
 			if (result.status) {
-				layer.msg('已删除!', {icon:1,time:1000});
-				refresh();
+				layer.msg('已删除!', {icon:1,time:1000}, function(){
+					window.location.reload();
+				});
 			} else {
 				layer.msg(result.msg, {icon:1,time:1000});
 			}
