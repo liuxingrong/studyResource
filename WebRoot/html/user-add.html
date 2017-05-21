@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>添加用户</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -26,16 +27,12 @@
 			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>性别：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="radio-box">
-					<input name="sex" type="radio" id="gender" checked>
+					<input type="radio" name="sex" value="1" checked>
 					<label for="sex-1">男</label>
 				</div>
 				<div class="radio-box">
-					<input type="radio" id="sex-2" name="sex">
+					<input type="radio" name="sex" value="2">
 					<label for="sex-2">女</label>
-				</div>
-				<div class="radio-box">
-					<input type="radio" id="sex-3" name="sex">
-					<label for="sex-3">保密</label>
 				</div>
 			</div>
 		</div>
@@ -110,6 +107,29 @@ $(function(){
 });
 
 function add(){
+	// 1.判断该username是否可用，若不存在则可用
+	handleAjax('/user.do?method=isRegister?username=' + $('#username').val()).done(function(result){
+		if (result.status) {
+			// 添加用户
+			var params = {
+				username: $('#username').val(),
+				realname: $('#realname').val(),
+				sex: $('input:radio[name="sex"]:checked').val(),
+				tel: $('#tel').val(),
+				email: $('#email').val(),
+			}
+			handleAjax('/user.do?method=add', params).done(function(result){
+				if(result.status){
+					layer.msg('添加成功!', {icon:1,time:1000});
+					refresh();
+				}
+			}).fail(function(xhr, error){
+				alert('error');
+			});
+		}
+	}).fail(function(xhr, error){
+		alert('error');
+	});
 	
 }
 </script> 

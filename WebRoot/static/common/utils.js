@@ -8,9 +8,14 @@ function getUrlParam(name) {
 // 利用了jquery延迟对象回调的方式对ajax封装，使用done()，fail()，always()等方法进行链式回调操作
 function handleAjax(url, param, type) {
 	return $.ajax({
-		url: url,
+		url: rootPath + url,
 		data: param || {},
 		type: type || 'GET',
 		dataType: 'json',
 	});
+}
+
+//刷新
+function refresh() {
+	location.replace(location.href);
 }

@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>修改用户</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -33,16 +34,12 @@
 			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>性别：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="radio-box">
-					<input name="sex" type="radio" id="gender" checked>
+					<input type="radio" name="sex" value="1" checked>
 					<label for="sex-1">男</label>
 				</div>
 				<div class="radio-box">
-					<input type="radio" id="sex-2" name="sex">
+					<input type="radio" name="sex" value="2">
 					<label for="sex-2">女</label>
-				</div>
-				<div class="radio-box">
-					<input type="radio" id="sex-3" name="sex">
-					<label for="sex-3">保密</label>
 				</div>
 			</div>
 		</div>
@@ -93,11 +90,6 @@ $(function(){
 	
 	$("#form-member-add").validate({
 		rules:{
-			username:{
-				required:true,
-				minlength:4,
-				maxlength:10
-			},
 			realname:{
 				required:true,
 				minlength:4,
@@ -106,7 +98,7 @@ $(function(){
 			sex:{
 				required:true,
 			},
-			mobile:{
+			tel:{
 				required:true,
 				isMobile:true,
 			},
@@ -125,11 +117,36 @@ $(function(){
 });
 
 function loadPage(id) {
-	alert(id)
+	handleAjax('/user.do?method=find&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#username').val(data.username);
+		$('#role').val(data.type == 1 ? '学生' : (data.type == 2 ? '老师' : '管理员'));
+		$('#realname').val(data.realname);
+		$("input:radio[name='sex'][value=" + data.gender + "]").prop("checked", "checked");
+		$('#realname').val(data.tel);
+		$('#realname').val(data.mail);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 
 function userModify(id){
-	alert(id)
+	var params = {
+		id: id,
+		username: $('#username').val(),
+		realname: $('#realname').val(),
+		sex: $('input:radio[name="sex"]:checked').val(),
+		tel: $('#tel').val(),
+		email: $('#email').val(),
+	};
+	handleAjax('/user.do?method=add').done(function(result) {
+		if (result.status) {
+			layer.msg('修改成功!', {icon:1,time:1000});
+			refresh();
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 </script> 
 </body>
