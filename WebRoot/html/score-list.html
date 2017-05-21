@@ -53,26 +53,19 @@ $(function(){
 		  {"orderable":false,"aTargets":[6]}// 制定列不参与排序
 		]
 	});
-
 	
-	getWeights();
+	loadList();
 	
 });
-/*获取分数权重*/
-function getWeights(userId) {
-	handleAjax('/weights.do?method=find').done(function(result) {
-		loadList(result.data);
-	}).fail(function(xhr, error){
-		alert('error')
-	})
-}
+
 /*成绩-列表*/
-function loadList(weights) {
+function loadList() {
 	handleAjax('score.do?method=getUserScore').done(function(result){
 		var data = result.data.score;
 		var weight = result.data.weight;
 		if (data == null) {
 			$('tbody').html('暂无数据');
+			return;
 		}
 		var str = ''
 		for (var i=0; i<data.length; i++) {
@@ -105,8 +98,9 @@ function score_del(id){
 	layer.confirm('确认要清空该同学成绩吗？',function(index){
 		handleAjax('score.do?method=updateStudy&id=' + id+'&type=1').done(function(result){
 			if (result.status) {
-				layer.msg('已清空!', {icon:1,time:1000});
-				refresh();
+				layer.msg('已清空!', {icon:1,time:1000}, function(){
+					window.location.reload();
+				});
 			} else {
 				layer.msg(result.msg, {icon:1,time:1000});
 			}

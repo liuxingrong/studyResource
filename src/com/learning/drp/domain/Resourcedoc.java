@@ -21,7 +21,7 @@ public class Resourcedoc {
 	
 	private Integer userId;
 	
-	private Date craeteTime;
+	private Date createTime;
 
 	public Integer getId() {
 		return id;
@@ -71,13 +71,12 @@ public class Resourcedoc {
 		this.userId = userId;
 	}
 
-	public Date getCraeteTime() {
-		return craeteTime;
+	public Date getCreateTime() {
+		return createTime;
 	}
 
-	public void setCraeteTime(Date craeteTime) {
-		this.craeteTime = craeteTime;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
-	
 	
 }
