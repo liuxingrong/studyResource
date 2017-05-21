@@ -31,7 +31,7 @@ public class ResourceDocAction extends DispatchAction{
 		resourcedoc.setResourceType(Integer.valueOf(type));
 		List<Resourcedoc> resourcedocList = resourceDocService.findAll(resourcedoc);
 		Result result = new Result();
-		if(resourcedocList.size()>0){
+		if(resourcedocList!=null){
 			result.setStatus(true);
 			result.setData(resourcedocList);
 			response.getWriter().write(Utils.ObjToJson(result));
