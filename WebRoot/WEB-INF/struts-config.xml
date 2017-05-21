@@ -59,6 +59,14 @@
 				scope="request"
 				parameter="method"
 		/>
+		
+		<action path="/userManage"
+				type="org.springframework.web.struts.DelegatingActionProxy"
+				name="userManage"
+				scope="request"
+				parameter="method"
+		/>
+		
 	</action-mappings>
 	
     <message-resources parameter="MessageResources" />
