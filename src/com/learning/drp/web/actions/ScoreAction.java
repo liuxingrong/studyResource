@@ -32,7 +32,7 @@ public class ScoreAction extends DispatchAction{
 		Result result = new Result();
 		try{
 			List<Score> scoreList = scoreService.findAll(score);
-			if(scoreList.size()>0){
+			if(scoreList!=null){
 				result.setStatus(true);
 				result.setData(scoreList);
 				response.getWriter().write(Utils.ObjToJson(result));
@@ -143,7 +143,7 @@ public class ScoreAction extends DispatchAction{
 		response.setCharacterEncoding("utf-8");
 		Result result = new Result();
 		List<Map<String, Object>> list = scoreService.getUserScore();
-		if(list.size()>0){
+		if(list!=null){
 			result.setStatus(true);
 			result.setData(list);
 			response.getWriter().write(Utils.ObjToJson(result));
@@ -182,7 +182,7 @@ public class ScoreAction extends DispatchAction{
 			Score entity = new Score();
 			entity.setUserId(Integer.valueOf(userId));
 			List<Score> list = scoreService.findAll(entity);
-			if(list.size()<=0){
+			if(list==null){
 				throw new Exception("修改失败！");
 			}
 			for(int i=0;i<list.size();i++){
@@ -220,7 +220,7 @@ public class ScoreAction extends DispatchAction{
 			Score entity = new Score();
 			entity.setUserId(Integer.valueOf(userId));
 			List<Score> list = scoreService.findAll(entity);
-			if(list.size()<=0){
+			if(list==null){
 				throw new Exception("删除失败！");
 			}
 			for(int i=0;i<list.size();i++){
@@ -253,7 +253,7 @@ public class ScoreAction extends DispatchAction{
 			Score entity = new Score();
 			entity.setUserId(Integer.valueOf(userId));
 			List<Score> list = scoreService.findAll(entity);
-			if(list.size()<=0){
+			if(list==null){
 				throw new Exception("获取数据失败！");
 			}
 			Map<String, Object> map = new HashedMap();

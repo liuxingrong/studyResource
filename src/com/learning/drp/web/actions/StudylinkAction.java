@@ -20,7 +20,7 @@ public class StudylinkAction extends DispatchAction {
 	
 	public ActionForward getData(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
-		
+		response.setCharacterEncoding("utf-8");
 		return null;
 	}
 
