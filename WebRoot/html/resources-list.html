@@ -63,7 +63,7 @@ $(function(){
 });
 /*资源-列表*/
 function loadList(type) {
-	handleAjax('/resourceDoc?method=getData&type=' + type).done(function(result){
+	handleAjax('resourceDoc.do?method=getData&type=' + type).done(function(result){
 		var data = result.data;
 		if (data == null) {
 			$('tbody').html('暂无数据');
@@ -72,14 +72,14 @@ function loadList(type) {
 		for (var i=0; i<data.length; i++) {
 			str += 
 				'<tr class="text-c">' +
-					'<th width="100">' + data.resourceName + '</th>' +
-					'<td>' + data.resourceDescription + '</td>' +
-					'<td>' + data.createTime + '</td>' +
-					'<td>' + data.realname + '</td>' +
+					'<th width="100">' + data[i].resourceName + '</th>' +
+					'<td>' + data[i].resourceDescription + '</td>' +
+					'<td>' + data[i].createDate + '</td>' +
+					'<td>' + data[i].realname + '</td>' +
 					'<td class="td-manage">' +
-						'<a title="下载" download="docs" href="' + data.resourcePath + '" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
-						'<a title="编辑" href="javascript:;" onclick="resources_edit(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-						'<a title="删除" href="javascript:;" onclick="resources_del(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+						'<a title="下载" download="docs" href="' + data[i].resourcePath + '" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
+						'<a title="编辑" href="javascript:;" onclick="resources_edit(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+						'<a title="删除" href="javascript:;" onclick="resources_del(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
 					'</td>' +
 				'</tr>';
 		};

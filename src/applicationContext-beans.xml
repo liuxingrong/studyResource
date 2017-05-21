@@ -17,4 +17,12 @@
 	<bean id="studylinkService" class="com.learning.drp.service.impl.StudylinkServiceImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="testdocService" class="com.learning.drp.service.impl.TestdocServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="weightsService" class="com.learning.drp.service.impl.WeightsServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 </beans>

@@ -19,7 +19,7 @@ public class StudylinkServiceImpl extends HibernateDaoSupport implements
 
 	@Override
 	public List<Studylink> findAll(Studylink studylink) {
-		String hql = "from studylink where 1=1";
+		String hql = "from Studylink where 1=1";
 		if (studylink.getUserId() != null) {
 			hql += " and userId =" + studylink.getUserId();
 		}

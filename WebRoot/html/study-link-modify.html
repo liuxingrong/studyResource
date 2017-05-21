@@ -77,7 +77,7 @@ $(function(){
 });
 
 function loadPage(id) {
-	handleAjax('/studyLink.do?method=find&id=' + id).done(function(result) {
+	handleAjax('studylink.do?method=find&id=' + id).done(function(result) {
 		var data = result.data;
 		$('#name').val(data.linkName);
 		$('#description').val(data.linkDescription);
@@ -91,10 +91,10 @@ function modify(id) {
    	var params = {
 		id: id,
 		linkName: $('#name').val(),
-		linkDescription: $('description').val(),
+		linkDescription: $('#description').val(),
 		linkUrl: $('#link').val(),
 	};
-	handleAjax('/studyLink.do?method=update', params).done(function(result) {
+	handleAjax('studylink.do?method=update', params).done(function(result) {
 		if (result.status) {
 			layer.msg('修改成功!', {icon:1,time:1000});
 			refresh();

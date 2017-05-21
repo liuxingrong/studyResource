@@ -81,10 +81,10 @@ function add(userId) {
 	var params = {
 		userId: userId,
 		linkName: $('#name').val(),
-		linkDescription: $('description').val(),
+		linkDescription: $('#description').val(),
 		linkUrl: $('#link').val(),
 	}
-	handleAjax('/studyLink.do?method=add', params).done(function(result){
+	handleAjax('studylink.do?method=add', params).done(function(result){
 		if(result.status){
 			layer.msg('添加成功!', {icon:1,time:1000});
 			refresh();
