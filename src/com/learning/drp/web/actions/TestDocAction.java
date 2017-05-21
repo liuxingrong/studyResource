@@ -108,30 +108,19 @@ public class TestDocAction extends DispatchAction {
 		String id = request.getParameter("id");
 		String testDocName = request.getParameter("testDocName");
 		String testDocDescription = request.getParameter("testDocDescription");
-		String testDocPath = request.getParameter("testDocPath");
 		String testDocAnswer = request.getParameter("testDocAnswer");
-		String userId = request.getParameter("userId");
 		Testdoc testdoc = new Testdoc();
 		try{
 			if(testDocName==null){
 				throw new Exception("测试卷名不能为空！");
 			}
-			if(testDocPath==null){
-				throw new Exception("上传测试卷！");
-			}
 			if(testDocAnswer==null){
 				throw new Exception("测试卷答案不能为空！");
 			}
-			if(userId==null){
-				throw new Exception("登录超时！");
-			}
-			testdoc.setId(Integer.valueOf(id));
+			testdoc = testdocService.find(Integer.valueOf(id));
 			testdoc.setTestDocName(testDocName);
 			testdoc.setTestDocAnswer(testDocAnswer);
 			testdoc.setTestDocDescription(testDocDescription);
-			testdoc.setTestDocPath(testDocPath);
-			testdoc.setUserId(Integer.valueOf(userId));
-			testdoc.setCreateTime(new Date(System.currentTimeMillis()));
 			testdocService.update(testdoc);
 			result.setStatus(true);
 			response.getWriter().write(Utils.ObjToJson(result));

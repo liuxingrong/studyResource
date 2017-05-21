@@ -101,7 +101,6 @@ public class StudylinkAction extends DispatchAction {
 		String linkName = request.getParameter("linkName");
 		String linkDescription = request.getParameter("linkDescription");
 		String linkUrl = request.getParameter("linkUrl");
-		String userId = request.getParameter("userId");
 		Studylink studylink = new Studylink();
 		Result result = new Result(); 
 		try{
@@ -111,15 +110,10 @@ public class StudylinkAction extends DispatchAction {
 			if(linkUrl==null){
 				throw new Exception("学习链接地址不能为空！");
 			}
-			if(userId==null){
-				throw new Exception("登录超时！");
-			}
-			studylink.setId(Integer.valueOf(id));
+			studylink = studylinkService.find(Integer.valueOf(id));
 			studylink.setLinkDescription(linkDescription);
 			studylink.setLinkName(linkName);
 			studylink.setLinkUrl(linkUrl);
-			studylink.setCreateTime(new Date(System.currentTimeMillis()));
-			studylink.setUserId(Integer.valueOf(userId));
 			studylinkService.update(studylink);
 			result.setStatus(true);
 			response.getWriter().write(Utils.ObjToJson(result));

@@ -92,7 +92,7 @@ $(function(){
 function add(userId) {
     console.info(new FormData($('#test-add')[0]))
 	// 添加资源
-	handleAjax('/test.do?method=add', new FormData($('#test-add')[0])).done(function(result){
+	handleAjax('/testdoc.do?method=add', new FormData($('#test-add')[0])).done(function(result){
 		if(result.status){
 			layer.msg('添加成功!', {icon:1,time:1000});
 			refresh();

@@ -34,7 +34,7 @@ public class ResourceDocServiceImpl extends HibernateDaoSupport implements
 	@Override
 	public Resourcedoc find(int id) {
 		Resourcedoc resourceDoc = (Resourcedoc) this.getSession()
-				.get(ResourceDocService.class, id);
+				.get(Resourcedoc.class, id);
 		if (resourceDoc == null) {
 			return null;
 		}

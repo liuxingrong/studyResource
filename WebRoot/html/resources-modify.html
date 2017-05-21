@@ -14,13 +14,13 @@
 		<div class="row cl">
             <label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span><span id='title'></span></label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+				<input type="text" class="input-text" value="" placeholder="" id="resourceName" name="resourceName">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>资源描述：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea id="description" name="description" cols="4" rows="50" class="textarea"  placeholder="说点什么..." onKeyUp="$.Huitextarealength(this,100)"></textarea>
+				<textarea id="resourceDescription" name="resourceDescription" cols="4" rows="50" class="textarea"  placeholder="说点什么..." onKeyUp="$.Huitextarealength(this,100)"></textarea>
 			</div>
 		</div>
 		<div class="row cl">
@@ -80,7 +80,7 @@ $(function(){
 });
 
 function loadPage(id) {
-	handleAjax('/resourceDoc.do?method=find&id=' + id).done(function(result) {
+	handleAjax('resourceDoc.do?method=find&id=' + id).done(function(result) {
 		var data = result.data;
 		$('#resourceName').val(data.resourceName);
 		$('#resourceDescription').val(data.resourceDescription);
@@ -95,7 +95,7 @@ function modify(id) {
 		resourceName: $('#resourceName').val(),
 		resourceDescription: $('#resourceDescription').val(),
 	};
-	handleAjax('/resourceDoc.do?method=update', params).done(function(result) {
+	handleAjax('resourceDoc.do?method=update', params).done(function(result) {
 		if (result.status) {
 			layer.msg('修改成功!', {icon:1,time:1000});
 			refresh();
