@@ -71,7 +71,7 @@ function getWeights(userId) {
 }
 
 function loadPage(userId, weights) {
-	handleAjax('/score.do?method=find&id=' + id).done(function(result) {
+	handleAjax('/score.do?method=findScoreByUser&id=' + id).done(function(result) {
 		var data = result.data;
 		$('#study').val(data.score1);
 		$('#test').val(data.score2);

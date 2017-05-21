@@ -68,24 +68,26 @@ function getWeights(userId) {
 }
 /*成绩-列表*/
 function loadList(weights) {
-	handleAjax('/score?method=getData').done(function(result){
-		var data = result.data;
+	handleAjax('score.do?method=getUserScore').done(function(result){
+		var data = result.data.score;
+		var weight = result.data.weight;
 		if (data == null) {
 			$('tbody').html('暂无数据');
 		}
 		var str = ''
 		for (var i=0; i<data.length; i++) {
+			var score = data[i][2]*weight.studyWeights+data[i][3]*weight.testWeights+data[i][4]*weight.projectWeights+data[i][5]*weight.practiceWeights;
 			str += 
 				'<tr class="text-c">' +
-					'<th>' + data.realname + '</th>' +
-					'<td>' + data.score1 + '</td>' +
-					'<td>' + data.score2 + '</td>' +
-					'<td>' + data.score3 + '</td>' +
-					'<td>' + data.score4 + '</td>' +
-					'<td>' + data.score1 + '</td>' +
+					'<th>' + data[i][1] + '</th>' +
+					'<td>' + data[i][2] + '</td>' +
+					'<td>' + data[i][3] + '</td>' +
+					'<td>' + data[i][4] + '</td>' +
+					'<td>' + data[i][5] + '</td>' +
+					'<td>' + score + '</td>' +
 					'<td class="td-manage">' +
-						'<a title="编辑" href="javascript:;" onclick="score_edit(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-						'<a title="清空" href="javascript:;" onclick="score_del(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+						'<a title="编辑" href="javascript:;" onclick="score_edit(' + data[i][0]+ ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+						'<a title="清空" href="javascript:;" onclick="score_del(' + data[i][0] + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
 					'</td>' +
 				'</tr>';
 		};
@@ -101,7 +103,7 @@ function score_edit(id){
 /*成绩-删除*/
 function score_del(id){
 	layer.confirm('确认要清空该同学成绩吗？',function(index){
-		handleAjax('/score?method=delete&id=' + id).done(function(result){
+		handleAjax('score.do?method=updateStudy&id=' + id+'&type=1').done(function(result){
 			if (result.status) {
 				layer.msg('已清空!', {icon:1,time:1000});
 				refresh();
