@@ -62,24 +62,24 @@ $(function(){
 });
 /*资源-列表*/
 function loadList() {
-	handleAjax('/studyLink?method=getData').done(function(result){
+	handleAjax('studylink.do?method=getData').done(function(result){
 		var data = result.data;
 		if (data == null) {
 			$('tbody').html('暂无数据');
 		}
 		var str = ''
-		for (var i=0; i<20; i++) {
+		for (var i=0; i<data.length; i++) {
 			str += 
 				'<tr class="text-c">' +
-					'<th>' + data.linkName + '</th>' +
-					'<td>' + data.linkDescription + '</td>' +
-					'<td>' + data.linkUrl + '</td>' +
-					'<td>' + data.createTime + '</td>' +
-					'<td>' + data.realname + '</td>' +
+					'<th>' + data[i].linkName + '</th>' +
+					'<td>' + data[i].linkDescription + '</td>' +
+					'<td>' + data[i].linkUrl + '</td>' +
+					'<td>' + data[i].createTime + '</td>' +
+					'<td>' + data[i].realname + '</td>' +
 					'<td class="td-manage">' +
-						'<a title="学习" href="javascript:;" onclick="study_link_see(' + data.linkUrl + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe64f;</i></a>' +
-						'<a title="编辑" href="javascript:;" onclick="study_link_edit(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-						'<a title="删除" href="javascript:;" onclick="study_link_del(' + data.id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+						'<a title="学习" href="javascript:;" onclick="study_link_see(' + data[i].linkUrl + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe64f;</i></a>' +
+						'<a title="编辑" href="javascript:;" onclick="study_link_edit(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+						'<a title="删除" href="javascript:;" onclick="study_link_del(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
 					'</td>' +
 				'</tr>';
 		};
@@ -108,7 +108,7 @@ function study_link_edit(id){
 /*资源-删除*/
 function study_link_del(id){
 	layer.confirm('确认要删除吗？',function(index){
-		handleAjax('/studyLink?method=delete&id=' + id).done(function(result){
+		handleAjax('studylink.do?method=delete&id=' + id).done(function(result){
 			if (result.status) {
 				layer.msg('已删除!', {icon:1,time:1000});
 				refresh();

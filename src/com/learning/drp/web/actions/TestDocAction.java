@@ -11,50 +11,52 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
-import com.learning.drp.domain.Studylink;
-import com.learning.drp.service.StudylinkService;
+import com.learning.drp.domain.Testdoc;
+import com.learning.drp.service.TestdocService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
 
-public class StudylinkAction extends DispatchAction {
-	
-	private StudylinkService studylinkService;
+public class TestDocAction extends DispatchAction {
 
-	public void setStudylinkService(StudylinkService studylinkService) {
-		this.studylinkService = studylinkService;
+	private TestdocService testdocService;
+
+	public void setTestdocService(TestdocService testdocService) {
+		this.testdocService = testdocService;
 	}
 	
 	public ActionForward getData(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
-		Studylink studylink = new Studylink();
 		Result result = new Result();
+		Testdoc testdoc = new Testdoc();
 		try{
-			List<Studylink> list = studylinkService.findAll(studylink);
+			List<Testdoc> list = testdocService.findAll(testdoc);
 			result.setStatus(true);
 			result.setData(list);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}catch(Exception e){
-			log.error(e.getMessage());
-			response.getWriter().write(Utils.ObjToJson(new Result(false, "获取错误！")));
+			result.setStatus(false);
+			result.setData(e.getMessage());
+			response.getWriter().write(Utils.ObjToJson(result));
 		}
 		return null;
 	}
-
+	
 	public ActionForward find(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
-		Studylink studylink = new Studylink();
 		Result result = new Result();
+		Testdoc testdoc = new Testdoc();
 		try{
-			studylink = studylinkService.find(Integer.valueOf(id));
+			testdoc = testdocService.find(Integer.valueOf(id));
 			result.setStatus(true);
-			result.setData(studylink);
+			result.setData(testdoc);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}catch(Exception e){
-			log.error(e.getMessage());
-			response.getWriter().write(Utils.ObjToJson(new Result(false, "获取错误！")));
+			result.setStatus(false);
+			result.setData(e.getMessage());
+			response.getWriter().write(Utils.ObjToJson(result));
 		}
 		return null;
 	}
@@ -62,28 +64,33 @@ public class StudylinkAction extends DispatchAction {
 	public ActionForward add(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
-		String linkName = request.getParameter("linkName");
-		String linkDescription = request.getParameter("linkDescription");
-		String linkUrl = request.getParameter("linkUrl");
-		String userId = request.getParameter("userId");
-		Studylink studylink = new Studylink();
 		Result result = new Result();
+		String testDocName = request.getParameter("testDocName");
+		String testDocDescription = request.getParameter("testDocDescription");
+		String testDocPath = request.getParameter("testDocPath");
+		String testDocAnswer = request.getParameter("testDocAnswer");
+		String userId = request.getParameter("userId");
+		Testdoc testdoc = new Testdoc();
 		try{
-			if(linkName==null){
-				throw new Exception("学习链接名不能为空！");
+			if(testDocName==null){
+				throw new Exception("测试卷名不能为空！");
 			}
-			if(linkUrl==null){
-				throw new Exception("学习链接地址不能为空！");
+			if(testDocPath==null){
+				throw new Exception("上传测试卷！");
+			}
+			if(testDocAnswer==null){
+				throw new Exception("测试卷答案不能为空！");
 			}
 			if(userId==null){
 				throw new Exception("登录超时！");
 			}
-			studylink.setLinkDescription(linkDescription);
-			studylink.setLinkName(linkName);
-			studylink.setLinkUrl(linkUrl);
-			studylink.setUserId(Integer.valueOf(userId));
-			studylink.setCreateTime(new Date(System.currentTimeMillis()));
-			studylinkService.add(studylink);
+			testdoc.setTestDocName(testDocName);
+			testdoc.setTestDocAnswer(testDocAnswer);
+			testdoc.setTestDocDescription(testDocDescription);
+			testdoc.setTestDocPath(testDocPath);
+			testdoc.setUserId(Integer.valueOf(userId));
+			testdoc.setCreateTime(new Date(System.currentTimeMillis()));
+			testdocService.add(testdoc);
 			result.setStatus(true);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}catch(Exception e){
@@ -97,24 +104,24 @@ public class StudylinkAction extends DispatchAction {
 	public ActionForward update(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
+		Result result = new Result();
 		String id = request.getParameter("id");
-		String linkName = request.getParameter("linkName");
-		String linkDescription = request.getParameter("linkDescription");
-		String linkUrl = request.getParameter("linkUrl");
-		Studylink studylink = new Studylink();
-		Result result = new Result(); 
+		String testDocName = request.getParameter("testDocName");
+		String testDocDescription = request.getParameter("testDocDescription");
+		String testDocAnswer = request.getParameter("testDocAnswer");
+		Testdoc testdoc = new Testdoc();
 		try{
-			if(linkName==null){
-				throw new Exception("学习链接名不能为空！");
+			if(testDocName==null){
+				throw new Exception("测试卷名不能为空！");
 			}
-			if(linkUrl==null){
-				throw new Exception("学习链接地址不能为空！");
+			if(testDocAnswer==null){
+				throw new Exception("测试卷答案不能为空！");
 			}
-			studylink = studylinkService.find(Integer.valueOf(id));
-			studylink.setLinkDescription(linkDescription);
-			studylink.setLinkName(linkName);
-			studylink.setLinkUrl(linkUrl);
-			studylinkService.update(studylink);
+			testdoc = testdocService.find(Integer.valueOf(id));
+			testdoc.setTestDocName(testDocName);
+			testdoc.setTestDocAnswer(testDocAnswer);
+			testdoc.setTestDocDescription(testDocDescription);
+			testdocService.update(testdoc);
 			result.setStatus(true);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}catch(Exception e){
@@ -129,11 +136,11 @@ public class StudylinkAction extends DispatchAction {
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
-		Studylink studylink = new Studylink();
 		Result result = new Result(); 
+		Testdoc testdoc = new Testdoc();
 		try{
-			studylink.setId(Integer.valueOf(id));
-			studylinkService.del(studylink);
+			testdoc.setId(Integer.valueOf(id));
+			testdocService.del(testdoc);
 			result.setStatus(true);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}catch(Exception e){

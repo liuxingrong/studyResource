@@ -14,15 +14,21 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 import com.learning.drp.domain.Score;
+import com.learning.drp.domain.Weights;
 import com.learning.drp.service.ScoreService;
+import com.learning.drp.service.WeightsService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
 
 public class ScoreAction extends DispatchAction{
 	private ScoreService scoreService;
-
+	private WeightsService weightsService;
 	public void setScoreService(ScoreService scoreService) {
 		this.scoreService = scoreService;
+	}
+
+	public void setWeightsService(WeightsService weightsService) {
+		this.weightsService = weightsService;
 	}
 
 	public void getData(ActionMapping mapping, ActionForm form,
@@ -143,9 +149,13 @@ public class ScoreAction extends DispatchAction{
 		response.setCharacterEncoding("utf-8");
 		Result result = new Result();
 		List<Map<String, Object>> list = scoreService.getUserScore();
+		Weights weights = weightsService.find(1);
 		if(list!=null){
+			Map<String, Object> map = new HashedMap();
+			map.put("score", list);
+			map.put("weight", weights);
 			result.setStatus(true);
-			result.setData(list);
+			result.setData(map);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}else{
 			result.setStatus(false);
@@ -166,13 +176,13 @@ public class ScoreAction extends DispatchAction{
 	public ActionForward updateStudy(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
-		String userId = request.getParameter("userId");
+		String userId = request.getParameter("id");
 		String type = request.getParameter("type");
-		String studyScore = request.getParameter("studyScore");
-		String testScore = request.getParameter("testScore");
-		String resourceScore = request.getParameter("resourceScore");
-		String projectScore = request.getParameter("projectScore");
-		if(type.equals(1)){
+		String studyScore = request.getParameter("study");
+		String testScore = request.getParameter("test");
+		String resourceScore = request.getParameter("practice");
+		String projectScore = request.getParameter("project");
+		if(type.equals("1")){
 			studyScore = "0";
 			testScore = "0";
 			resourceScore = "0";
@@ -247,7 +257,7 @@ public class ScoreAction extends DispatchAction{
 	public ActionForward findScoreByUser(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
-		String userId = request.getParameter("userId");
+		String userId = request.getParameter("id");
 		Result result = new Result();
 		try{
 			Score entity = new Score();

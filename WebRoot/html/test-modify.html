@@ -80,7 +80,7 @@ $(function(){
 });
 
 function loadPage(id) {
-	handleAjax('/testDoc.do?method=find&id=' + id).done(function(result) {
+	handleAjax('testdoc.do?method=find&id=' + id).done(function(result) {
 		var data = result.data;
 		$('#name').val(data.testDocName);
 		$('#description').val(data.testDocDescription);
@@ -97,7 +97,7 @@ function modify(id) {
 		testDocDescription: $('#description').val(),
 		testDocAnswer: $('#answer').val(),
 	};
-	handleAjax('/testDoc.do?method=update', params).done(function(result) {
+	handleAjax('testdoc.do?method=update', params).done(function(result) {
 		if (result.status) {
 			layer.msg('修改成功!', {icon:1,time:1000});
 			refresh();

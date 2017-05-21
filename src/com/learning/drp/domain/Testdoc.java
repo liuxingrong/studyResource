@@ -8,6 +8,7 @@ public class Testdoc {
 	private String testDocName;
 	private String testDocPath;
 	private String testDocAnswer;
+	private String testDocDescription;
 	private Integer userId;
 	private Date createTime;
 	
@@ -47,6 +48,12 @@ public class Testdoc {
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public String getTestDocDescription() {
+		return testDocDescription;
+	}
+	public void setTestDocDescription(String testDocDescription) {
+		this.testDocDescription = testDocDescription;
 	}
 	
 }

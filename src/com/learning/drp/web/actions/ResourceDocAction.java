@@ -82,17 +82,10 @@ public class ResourceDocAction extends DispatchAction{
 		String id = request.getParameter("id");
 		String resourceName = request.getParameter("resourceName");
 		String resourceDescription = request.getParameter("resourceDescription");
-		String resourcePath = request.getParameter("resourcePath");
-		String resourceType = request.getParameter("resourceType");
-		String userId = request.getParameter("userId");
 		Resourcedoc resourcedoc = new Resourcedoc();
-		resourcedoc.setId(Integer.valueOf(id));
+		resourcedoc = resourceDocService.find(Integer.valueOf(id));
 		resourcedoc.setResourceName(resourceName);
 		resourcedoc.setResourceDescription(resourceDescription);
-		resourcedoc.setUserId(Integer.valueOf(userId));
-		resourcedoc.setResourceType(Integer.valueOf(resourceType));
-		resourcedoc.setCraeteTime(new Date(System.currentTimeMillis()));
-		resourcedoc.setResourcePath(resourcePath);
 		try{
 			if(id==null){
 				throw new Exception("请选择要修改的课程");

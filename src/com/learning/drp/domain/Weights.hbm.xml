@@ -8,7 +8,7 @@
 			<generator class="native"/>
 		</id>
 		<property name="studyWeights"/>
-		<property name="testWeigths"/>
+		<property name="testWeights"/>
 		<property name="practiceWeights"/>
 		<property name="projectWeights"/>
 	</class>
