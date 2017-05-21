@@ -96,8 +96,9 @@ function modify(id) {
 	};
 	handleAjax('studylink.do?method=update', params).done(function(result) {
 		if (result.status) {
-			layer.msg('修改成功!', {icon:1,time:1000});
-			refresh();
+			layer.msg('修改成功!', {icon:1,time:1000}, function(){
+				refresh();
+			});
 		}
 	}).fail(function(xhr, error){
 		alert('error')
