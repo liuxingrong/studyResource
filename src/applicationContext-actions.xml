@@ -26,4 +26,8 @@
 	<bean name="/testdoc" class="com.learning.drp.web.actions.TestDocAction" scope="prototype">
 		<property name="testdocService" ref="testdocService"/>
 	</bean>
+	
+	<bean name="/weights" class="com.learning.drp.web.actions.WeightsAction" scope="prototype">
+		<property name="weightsService" ref="weightsService"/>
+	</bean>
 </beans>

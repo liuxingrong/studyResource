@@ -3,10 +3,9 @@ package com.learning.drp.domain;
 public class Weights {
 	private int id;
 	private double studyWeights;
-	private double testWeigths;
+	private double testWeights;
 	private double practiceWeights;
 	private double projectWeights;
-	
 	public int getId() {
 		return id;
 	}
@@ -19,11 +18,11 @@ public class Weights {
 	public void setStudyWeights(double studyWeights) {
 		this.studyWeights = studyWeights;
 	}
-	public double getTestWeigths() {
-		return testWeigths;
+	public double getTestWeights() {
+		return testWeights;
 	}
-	public void setTestWeigths(double testWeigths) {
-		this.testWeigths = testWeigths;
+	public void setTestWeights(double testWeights) {
+		this.testWeights = testWeights;
 	}
 	public double getPracticeWeights() {
 		return practiceWeights;
@@ -37,17 +36,6 @@ public class Weights {
 	public void setProjectWeights(double projectWeights) {
 		this.projectWeights = projectWeights;
 	}
-	@Override
-	public String toString() {
-		return "weights [id=" + id + ", studyWeights=" + studyWeights
-				+ ", testWeigths=" + testWeigths + ", practiceWeights="
-				+ practiceWeights + ", projectWeights=" + projectWeights
-				+ ", getId()=" + getId() + ", getStudyWeights()="
-				+ getStudyWeights() + ", getTestWeigths()=" + getTestWeigths()
-				+ ", getPracticeWeights()=" + getPracticeWeights()
-				+ ", getProjectWeights()=" + getProjectWeights()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
-	}
+	
 	
 }
