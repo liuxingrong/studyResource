@@ -83,23 +83,36 @@ $(function(){
 		submitHandler:function(form){
 			 setTimeout(function(){
                 var userId = user.id;
-                add(userId);
+                add(userId, type);
             }, 200);
 		}
 	});
 });
 
-function add(userId) {
-	console.info(new FormData($('#resources-add')[0]))
+function add(userId, type) {
+	var params = new FormData($("#resources-add")[0]);  
+	params.append("userId", userId);
+	params.append("type", type);
 	// 添加资源
-	handleAjax('/resource.do?method=add', new FormData($('#resources-add')[0])).done(function(result){
-		if(result.status){
-			layer.msg('添加成功!', {icon:1,time:1000}, function(){
-				refresh();
-			});
+	$.ajax({
+		type: 'POST',
+		url: '/learningResources/resourceDoc.do?method=add',
+		data: params,
+		contentType: false,  
+		processData: false,
+		dataType: 'json',
+		success: function(result) {
+			if(result.status){
+				layer.msg('添加成功!', {icon:1,time:1000}, function(){
+					refresh();
+				});
+			} else {
+				layer.msg('发生错误!', {icon:1,time:1000});
+			}
+		},
+		error: function(xhr, error) {
+			alert('error')
 		}
-	}).fail(function(xhr, error){
-		alert('error');
-	});
+	})
 }
 </script> 

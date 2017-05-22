@@ -78,7 +78,7 @@ function loadList(type) {
 					'<td>' + getDate(data[i].createTime) + '</td>' +
 					'<td>' + data[i].realname + '</td>' +
 					'<td class="td-manage">' +
-						'<a title="下载" download="docs" href="' + data[i].resourcePath + '" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
+						'<a title="下载" download="' + data[i].resourcePath.split('*')[1].split('.')[0] + '" href="/learningResources/upload/' + data[i].resourcePath + '" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
 						'<a title="编辑" href="javascript:;" onclick="resources_edit(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
 						'<a title="删除" href="javascript:;" onclick="resources_del(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
 					'</td>' +
@@ -100,7 +100,7 @@ function resources_edit(id){
 /*资源-删除*/
 function resources_del(id){
 	layer.confirm('确认要删除改该资源吗？',function(index){
-		handleAjax('/resourceDoc?method=delete&id=' + id).done(function(result){
+		handleAjax('resourceDoc.do?method=delete&id=' + id).done(function(result){
 			if (result.status) {
 				layer.msg('已删除!', {icon:1,time:1000}, function(){
 					window.location.reload();
