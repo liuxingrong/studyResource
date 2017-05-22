@@ -32,7 +32,7 @@
         <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span></label>
 			<div class="formControls col-xs-8 col-sm-9" id="download">
-                <a title="下载" download="docs" href="http://img04.tooopen.com/images/20131115/sy_47505221718.jpg" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
+                <a id='download' title="下载" download="" href="" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
 			</div>
 		</div>
 	</form>
@@ -69,6 +69,8 @@ function loadPage(userId, type) {
 				var data = result.data;
 				$('#resourceName').val(data.resourceName);
 				$('#resourceDescription').val(data.resourceDescription);
+				$('#download').attr('download', data.resourcePath.split('*')[1].split('.')[0]);
+				$('#download').attr('href', '/learningResources/upload/' + data.resourcePath);
 			}).fail(function(xhr, error){
 				alert('error')
 			})

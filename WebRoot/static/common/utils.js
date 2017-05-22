@@ -24,5 +24,8 @@ function refresh() {
 
 // 根据createTime获取时间（日期）
 function getDate(createTime) {
+	if (createTime == null) {
+		return "";
+	}
 	return createTime.year + '-' + (createTime.month + 1) + '-' + createTime.day;
 }

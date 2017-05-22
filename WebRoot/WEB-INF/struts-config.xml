@@ -6,6 +6,8 @@
 <struts-config>
 <form-beans>
 		<form-bean name="loginForm" type="com.learning.drp.web.forms.LoginActionForm"/>
+		<form-bean name="resourcesForm" type="com.learning.drp.web.forms.FileUploadForm"/>
+		<form-bean name="testForm" type="com.learning.drp.web.forms.FileUploadForm"/>
 	</form-beans>
 	
 	<global-exceptions>
@@ -27,7 +29,7 @@
 	
 		<action path="/resourceDoc"
 				type="org.springframework.web.struts.DelegatingActionProxy"
-				name="resourceDoc"
+				name="resourcesForm"
 				scope="request"
 				parameter="method"
 		/>
@@ -48,7 +50,7 @@
 		
 		<action path="/testdoc"
 				type="org.springframework.web.struts.DelegatingActionProxy"
-				name="testdoc"
+				name="testForm"
 				scope="request"
 				parameter="method"
 		/>

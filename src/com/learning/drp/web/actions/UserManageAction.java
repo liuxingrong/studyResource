@@ -5,9 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.Source;
-
-import net.sf.json.JSONArray;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -61,6 +58,7 @@ public class UserManageAction extends DispatchAction{
 	 */
 	public ActionForward delUser(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
 		int id=Integer.parseInt(request.getParameter("id"));
 		Score score=new Score();
 		score.setUserId(id);
@@ -172,6 +170,7 @@ public class UserManageAction extends DispatchAction{
 	 */
 	public ActionForward toEdit(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
 		int id=Integer.parseInt(request.getParameter("id"));
 		User user=userManageService.findById(id);
 		Result result=new Result();
