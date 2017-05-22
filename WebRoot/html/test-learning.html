@@ -53,17 +53,18 @@
 
 <script type="text/javascript">
 $(function(){
-	loadPage(userId);
+    var userId = user.id;
+	loadPage(userId,1);
 });
 
 function loadPage(userId, type) {
-	handleAjax('/score.do?method=find&id=' + userId).done(function(result) {
-		if(result.status) {
+	handleAjax('score.do?method=find&id=' + userId+"&type="+type).done(function(result) {
+		if(result.data) {
 			//无成绩，随机生成一个资源
-			handleAjax('/test.do?method=random').done(function(result) {
+			handleAjax('testdoc.do?method=random').done(function(result) {
 				var data = result.data;
-				$('#name').val(data.testName);
-				$('#description').val(data.testDescription);
+				$('#name').val(data.testDocName);
+				$('#description').val(data.testDocDescription);
 			}).fail(function(xhr, error){
 				alert('error')
 			})

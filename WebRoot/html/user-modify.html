@@ -68,6 +68,7 @@
 <script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
+
 $(function(){
 	var id = getUrlParam('id');
 	var type = getUrlParam('type');
@@ -92,7 +93,7 @@ $(function(){
 		rules:{
 			realname:{
 				required:true,
-				minlength:4,
+				minlength:2,
 				maxlength:10
 			},
 			sex:{

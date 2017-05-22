@@ -259,6 +259,7 @@ public class ScoreAction extends DispatchAction{
 		response.setCharacterEncoding("utf-8");
 		String userId = request.getParameter("id");
 		Result result = new Result();
+		Weights weights = weightsService.find(1);
 		try{
 			Score entity = new Score();
 			entity.setUserId(Integer.valueOf(userId));
@@ -267,21 +268,27 @@ public class ScoreAction extends DispatchAction{
 				throw new Exception("获取数据失败！");
 			}
 			Map<String, Object> map = new HashedMap();
+			int sum = 0;
 			for(int i=0;i<list.size();i++){
 				Score score = list.get(i);
 				if(score.getType()==1){
 					map.put("score1", score.getScore());
+					sum += score.getScore()*weights.getStudyWeights();
 				}
 				if(score.getType()==2){
 					map.put("score2", score.getScore());
+					sum +=score.getScore()*weights.getTestWeights();
 				}
 				if(score.getType()==3){
 					map.put("score3", score.getScore());
+					sum +=score.getScore()*weights.getProjectWeights();
 				}
 				if(score.getType()==4){
 					map.put("score4", score.getScore());
+					sum +=score.getScore()*weights.getPracticeWeights();
 				}
 			}
+			map.put("score", sum);
 			result.setStatus(true);
 			result.setData(map);
 			response.getWriter().write(Utils.ObjToJson(result));
@@ -289,8 +296,35 @@ public class ScoreAction extends DispatchAction{
 			result.setStatus(false);
 			log.error(e.getMessage());
 			result.setData(e.getMessage());
-			response.getWriter().write(Utils.ObjToJson(new Result(false, "删除失败！")));
+			response.getWriter().write(Utils.ObjToJson(new Result(false, "获取失败！")));
 		}
+		return null;
+	}
+	
+	public ActionForward isScore(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
+		String userId = request.getParameter("userId");
+		String type = request.getParameter("type");
+		Score score = new Score();
+		score.setUserId(Integer.parseInt(userId));
+		score.setType(Integer.parseInt(type));
+		List<Score> list = scoreService.findAll(score);
+		Result result = new Result();
+		if(list!=null){
+			score = list.get(0);
+			if(score.getScore()>0){
+				result.setStatus(true);
+				result.setData(false);
+			}else{
+				result.setStatus(true);
+				result.setData(true);
+			}
+		}else{
+			result.setStatus(true);
+			result.setData(true);
+		}
+		response.getWriter().write(Utils.ObjToJson(result));
 		return null;
 	}
 }
