@@ -34,4 +34,9 @@
 	<bean name="/weights" class="com.learning.drp.web.actions.WeightsAction" scope="prototype">
 		<property name="weightsService" ref="weightsService"/>
 	</bean>
+	
+	<bean name="/userManage" class="com.learning.drp.web.actions.UserManageAction" scope="prototype">
+		 <property name="userManageService" ref="userManageService"/>
+		 <property name="scoreService" ref="scoreService"/>
+	</bean>
 </beans>
