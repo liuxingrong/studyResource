@@ -57,8 +57,8 @@
 $(function(){
     setTimeout(function(){
         var userId = user.id;
-		getWeights(userId);
-        loadPage();
+	/* 	getWeights(userId); */
+        loadPage(userId);
     }, 200);   
 });
 
@@ -71,13 +71,14 @@ function getWeights(userId) {
 }
 
 function loadPage(userId, weights) {
+	var id =userId;
 	handleAjax('/score.do?method=findScoreByUser&id=' + id).done(function(result) {
 		var data = result.data;
-		$('#study').val(data.score1);
-		$('#test').val(data.score2);
-		$('#project').val(data.score3);
-		$('#practice').val(data.score4);
-		$('#all').val(data.score2);
+		$('#study').html(data.score1);
+		$('#test').html(data.score2);
+		$('#project').html(data.score3);
+		$('#practice').html(data.score4);
+		$('#all').html(data.score);
 	}).fail(function(xhr, error){
 		alert('error')
 	})

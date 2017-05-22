@@ -1,10 +1,14 @@
 package com.learning.drp.web.actions;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,10 +17,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+import org.apache.struts.upload.FormFile;
 
 import com.learning.drp.domain.Resourcedoc;
 import com.learning.drp.service.ResourceDocService;
 import com.learning.drp.service.UserManageService;
+import com.learning.drp.web.forms.FileUploadForm;
 import com.learning.util.Result;
 import com.learning.util.Utils;
 
@@ -50,7 +56,8 @@ public class ResourceDocAction extends DispatchAction{
 				map.put("id", en.getId());
 				map.put("resourceName", en.getResourceName());
 				map.put("resourceDescription", en.getResourceDescription());
-				map.put("createDate", en.getCreateTime());
+				map.put("resourcePath", en.getResourcePath());
+				map.put("createTime", en.getCreateTime());
 				map.put("realname", userManageService.findById(en.getUserId()).getRealname());
 				list.add(map);
 			}
@@ -66,35 +73,51 @@ public class ResourceDocAction extends DispatchAction{
 	
 	public ActionForward add(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
-		response.setCharacterEncoding("utf-8");
-		String resourceName = request.getParameter("resourceName");
-		String resourceDescription = request.getParameter("resourceDescription");
-		String resourcePath = request.getParameter("resourcePath");
-		String resourceType = request.getParameter("resourceType");
-		String userId = request.getParameter("userId");
-		try{
-			if(resourceName==null){
-				throw new Exception("课程名不能为空！");
+		
+		FileUploadForm fileUploadForm = (FileUploadForm)form;
+		FormFile uploadFile = fileUploadForm.getfile();  
+		String uploadPath = request.getRealPath("/upload");
+		String fileName = new java.util.Date().getTime() + "*" + uploadFile.getFileName();
+		try {
+			// 上传文件
+			File file = new File(uploadPath);
+			if (!file.exists() && !file .isDirectory()) {
+				// upload文件夹不存在
+				 file.mkdir();
 			}
-			if(resourceType==null){
-				throw new Exception("请选择导入的课程类型！");
+	        FileOutputStream outer = new FileOutputStream(new File(uploadPath, fileName));  
+	        byte[] buffer = uploadFile.getFileData();  
+	        outer.write(buffer);  
+	        outer.close();  
+	        // 上传成功
+	        String resourceName = request.getParameter("resourceName");
+			String resourceDescription = request.getParameter("resourceDescription");
+			String resourcePath = fileName;
+			String resourceType = request.getParameter("type");
+			String userId = request.getParameter("userId");
+			
+			try{
+				Resourcedoc resourcedoc = new Resourcedoc();
+				resourcedoc.setResourceName(resourceName);
+				resourcedoc.setResourceDescription(resourceDescription);
+				resourcedoc.setUserId(Integer.valueOf(userId));
+				resourcedoc.setResourceType(Integer.valueOf(resourceType));
+				resourcedoc.setCreateTime(new Date(System.currentTimeMillis()));
+				resourcedoc.setResourcePath(resourcePath);
+				resourceDocService.add(resourcedoc);
+				response.getWriter().write(Utils.ObjToJson(new Result(true, null)));
+			}catch(Exception e){
+				log.error(e.getMessage());
+				response.getWriter().write(Utils.ObjToJson(new Result(false, "插入错误")));
 			}
-			if(userId==null){
-				throw new Exception("登录超时！");
-			}
-			Resourcedoc resourcedoc = new Resourcedoc();
-			resourcedoc.setResourceName(resourceName);
-			resourcedoc.setResourceDescription(resourceDescription);
-			resourcedoc.setUserId(Integer.valueOf(userId));
-			resourcedoc.setResourceType(Integer.valueOf(resourceType));
-			resourcedoc.setCreateTime(new Date(System.currentTimeMillis()));
-			resourcedoc.setResourcePath(resourcePath);
-			resourceDocService.add(resourcedoc);
-			response.getWriter().write(Utils.ObjToJson(new Result(true, null)));
-		}catch(Exception e){
-			log.error(e.getMessage());
-			response.getWriter().write(Utils.ObjToJson(new Result(false, "插入错误")));
-		}
+	        uploadFile.destroy();  
+	    } catch (Exception e) { 
+	    	//上传失败
+	    	log.error(e);
+	    	response.getWriter().write(Utils.ObjToJson(new Result(false, "插入错误")));
+	    }  
+		
+		
 		return null;
 	}
 	
@@ -151,6 +174,28 @@ public class ResourceDocAction extends DispatchAction{
 				throw new Exception("请选择课程");
 			}
 			resourcedoc = resourceDocService.find(Integer.valueOf(id));
+			result.setData(resourcedoc);
+			result.setStatus(true);
+			response.getWriter().write(Utils.ObjToJson(result));
+		}catch(Exception e){
+			result.setStatus(false);
+			response.getWriter().write(Utils.ObjToJson(result));
+		}
+		return null;
+	}
+	
+	public ActionForward random(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
+		String type = request.getParameter("type");
+		Resourcedoc resourcedoc = new Resourcedoc();
+		resourcedoc.setResourceType(Integer.parseInt(type));
+		Random random = new Random();
+		Result result = new Result();
+		try{
+			List<Resourcedoc> resourcedocList = resourceDocService.findAll(resourcedoc);
+			int n = random.nextInt(resourcedocList.size()-1);
+			resourcedoc = resourcedocList.get(n);
 			result.setData(resourcedoc);
 			result.setStatus(true);
 			response.getWriter().write(Utils.ObjToJson(result));

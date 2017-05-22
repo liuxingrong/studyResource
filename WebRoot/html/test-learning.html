@@ -32,7 +32,7 @@
         <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span></label>
 			<div class="formControls col-xs-8 col-sm-9" id="download">
-                <a title="下载" download="docs" href="http://img04.tooopen.com/images/20131115/sy_47505221718.jpg" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
+                <a id='download' title="下载" download="" href="" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
 			</div>
 		</div>
         <div class="row cl">
@@ -53,17 +53,20 @@
 
 <script type="text/javascript">
 $(function(){
-	loadPage(userId);
+    var userId = user.id;
+	loadPage(userId,1);
 });
 
 function loadPage(userId, type) {
-	handleAjax('/score.do?method=find&id=' + userId).done(function(result) {
-		if(result.status) {
+	handleAjax('score.do?method=find&id=' + userId+"&type="+type).done(function(result) {
+		if(result.data) {
 			//无成绩，随机生成一个资源
-			handleAjax('/test.do?method=random').done(function(result) {
+			handleAjax('testdoc.do?method=random').done(function(result) {
 				var data = result.data;
 				$('#name').val(data.testName);
 				$('#description').val(data.testDescription);
+				$('#download').attr('download', data.testDocPath.split('*')[1].split('.')[0]);
+				$('#download').attr('href', '/learningResources/upload/' + data.testDocPath);
 			}).fail(function(xhr, error){
 				alert('error')
 			})
