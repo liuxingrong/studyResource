@@ -4,13 +4,18 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
+
+import com.learning.drp.domain.Resourcedoc;
 import com.learning.drp.domain.Testdoc;
 import com.learning.drp.service.TestdocService;
 import com.learning.drp.service.UserManageService;
@@ -164,6 +169,26 @@ public class TestDocAction extends DispatchAction {
 		}catch(Exception e){
 			result.setStatus(false);
 			result.setData(e.getMessage());
+			response.getWriter().write(Utils.ObjToJson(result));
+		}
+		return null;
+	}
+	
+	public ActionForward random(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
+		Testdoc testdoc = new Testdoc();
+		Random random = new Random();
+		Result result = new Result();
+		try{
+			List<Testdoc> list = testdocService.findAll(testdoc);
+			int n = random.nextInt(list.size()-1);
+			testdoc = list.get(n);
+			result.setData(testdoc);
+			result.setStatus(true);
+			response.getWriter().write(Utils.ObjToJson(result));
+		}catch(Exception e){
+			result.setStatus(false);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}
 		return null;

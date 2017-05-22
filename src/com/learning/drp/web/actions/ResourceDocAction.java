@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -151,6 +152,28 @@ public class ResourceDocAction extends DispatchAction{
 				throw new Exception("请选择课程");
 			}
 			resourcedoc = resourceDocService.find(Integer.valueOf(id));
+			result.setData(resourcedoc);
+			result.setStatus(true);
+			response.getWriter().write(Utils.ObjToJson(result));
+		}catch(Exception e){
+			result.setStatus(false);
+			response.getWriter().write(Utils.ObjToJson(result));
+		}
+		return null;
+	}
+	
+	public ActionForward random(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
+		String type = request.getParameter("type");
+		Resourcedoc resourcedoc = new Resourcedoc();
+		resourcedoc.setResourceType(Integer.parseInt(type));
+		Random random = new Random();
+		Result result = new Result();
+		try{
+			List<Resourcedoc> resourcedocList = resourceDocService.findAll(resourcedoc);
+			int n = random.nextInt(resourcedocList.size()-1);
+			resourcedoc = resourcedocList.get(n);
 			result.setData(resourcedoc);
 			result.setStatus(true);
 			response.getWriter().write(Utils.ObjToJson(result));

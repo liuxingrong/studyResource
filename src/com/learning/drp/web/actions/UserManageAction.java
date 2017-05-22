@@ -16,6 +16,7 @@ import org.apache.struts.actions.DispatchAction;
 
 import com.learning.drp.domain.Score;
 import com.learning.drp.domain.User;
+import com.learning.drp.enums.Gender;
 import com.learning.drp.enums.IsActive;
 import com.learning.drp.service.ScoreService;
 import com.learning.drp.service.UserManageService;
@@ -80,7 +81,6 @@ public class UserManageAction extends DispatchAction{
 			HttpServletRequest request, HttpServletResponse response)throws Exception {
 		response.setCharacterEncoding("utf-8");
 		String username=request.getParameter("username");
-		System.out.println("----------"+username);
 		User user=userManageService.findByUserName(username);
 		System.out.println("---------"+user.toString());
 		Result result=new Result();
@@ -102,14 +102,19 @@ public class UserManageAction extends DispatchAction{
 		response.setCharacterEncoding("utf-8");
 		String username=request.getParameter("username");
 		String realname=request.getParameter("realname");
-		String gender=request.getParameter("gender");
+		int sex=Integer.parseInt(request.getParameter("sex"));
 		String email=request.getParameter("email");
 		String tel=request.getParameter("tel");
 		int type=Integer.parseInt(request.getParameter("type"));
         User user=new User();
 		user.setNumber(username);
 		user.setRealname(realname);
-		user.setGender(gender);
+		if (sex==1) {
+			user.setGender(Gender.MAN.getName());
+		}
+		if (sex==2) {
+			user.setGender(Gender.WOMAN.getName());
+		}
 		user.setEmail(email);
 		user.setTel(tel);
 		user.setType(type);
@@ -117,6 +122,9 @@ public class UserManageAction extends DispatchAction{
 		user.setUsername(username);
 		user.setPassword("123456");
 		userManageService.add(user);
+		Result result = new Result();
+		result.setStatus(true);
+		response.getWriter().write(Utils.ObjToJson(result));
 		//初始化学生成绩
 		if (type==1) {
 			int userId=userManageService.findByUserName(username).getId();
@@ -131,8 +139,6 @@ public class UserManageAction extends DispatchAction{
 			}
 			
 		}
-      
-		response.getWriter().write(Utils.ObjToJson(new Result(true, "添加成功")));
 		return null;
 	}
 	/*
@@ -140,16 +146,17 @@ public class UserManageAction extends DispatchAction{
 	 */
 	public ActionForward changeActive(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
 		int id=Integer.parseInt(request.getParameter("id"));
 		int isActive=Integer.parseInt(request.getParameter("isActive"));
 		User user=userManageService.findById(id);
 		if (isActive==1) {
-			user.setIsActive(IsActive.UNACTIVATED.getValue());
+			user.setIsActive(IsActive.ACTIVATION.getValue());
 			userManageService.update(user);
 			response.getWriter().write(Utils.ObjToJson(new Result(true, "停用成功")));
 		}
 		if (isActive==0) {
-			user.setIsActive(IsActive.ACTIVATION.getValue());
+			user.setIsActive(IsActive.UNACTIVATED.getValue());
 			userManageService.update(user);
 			response.getWriter().write(Utils.ObjToJson(new Result(true, "启用成功")));
 		}
@@ -180,12 +187,17 @@ public class UserManageAction extends DispatchAction{
 		response.setCharacterEncoding("utf-8");
 		int id=Integer.parseInt(request.getParameter("id"));
 		String realname=request.getParameter("realname");
-		String gender=request.getParameter("gender");
+		int sex=Integer.parseInt(request.getParameter("sex"));
 		String email=request.getParameter("email");
 		String tel=request.getParameter("tel");
 		User user=userManageService.findById(id);
 		user.setRealname(realname);
-		user.setGender(gender);
+		if (sex==1) {
+			user.setGender(Gender.MAN.getName());
+		}
+		if (sex==2) {
+			user.setGender(Gender.WOMAN.getName());
+		}
 		user.setEmail(email);
 		user.setTel(tel);
 		userManageService.update(user);

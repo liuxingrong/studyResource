@@ -49,6 +49,7 @@
 <script type="text/javascript" src="/learningResources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="/learningResources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+
 var type = null;
 $(function(){
 	type = getUrlParam('type');
@@ -83,10 +84,10 @@ function loadList(type) {
 					'<td>'+ data[i].gender + '</td>' +
 					'<td>'+ data[i].tel + '</td>' +
 					'<td>'+ data[i].email + '</td>' +
-					'<td>'+ data[i].createTime + '</td>' +
+					'<td>'+ getDate(data[i].createTime) + '</td>' +
 					'<td class="td-status"><span class="label label-success radius">'+ (data[i].isActive == 1 ? "已启用" : "已停用") +'</span></td>' +
 					'<td class="td-manage">' +
-						'<a style="text-decoration:none" onClick="user_changeActive(this, ' + data[i].id + '", "' + data[i].isActive + ')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>' +
+						'<a style="text-decoration:none" onClick="user_changeActive(this,' + data[i].id + ',' + data[i].isActive + ')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a>' +
 						'<a title="编辑" href="javascript:;" onclick="user_edit(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
 						'<a style="text-decoration:none" class="ml-5" onClick="change_password(' + data[i].id + ')" href="javascript:;" title="重置密码"><i class="Hui-iconfont">&#xe63f;</i></a>' +
 						'<a title="删除" href="javascript:;" onclick="user_del(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
@@ -108,16 +109,24 @@ function user_edit(id){
 	layer_show('编辑用户','user-modify.html?id=' + id, '600', '400');
 }
 /*用户-停用， 启用*/
-function user_changeActive(obj, id, isActive){
+function user_changeActive(obj,id,isActive){
 	var msg = isActive == 1 ? '停用' : '启用';
-	var params = {id: id, isActive: isActive == 1 ? 0 : 1};
+	var params = 
+	  {
+		  id: id, isActive:
+		  isActive == 1 ? 0 : 1
+		};
+
 	layer.confirm('确认要' + msg + '吗？',function(index){
-		handleAjax('userManage?method=changeActive', params, 'POST').done(function(result){
-			layer.msg('已' + msg + '!', {icon: 5,time:1000});
-			refresh();
-		}).fail(function(xhr, error){
+		handleAjax('userManage.do?method=changeActive', params,'POST').done(function(result){
+			if (result.status) {
+				layer.msg('已' + msg + '!', {icon:1,time:1000}, function(){
+					window.location.reload();
+				});
+			} 
+		}).fail(function(xhr,error){
 			alert('error');
-		})
+		});	
 	});
 }
 
@@ -125,8 +134,11 @@ function user_changeActive(obj, id, isActive){
 function change_password(id){
 	layer.confirm('确认要重置密码吗？',function(index){
 		handleAjax('userManage.do?method=resetPassword&id=' +id).done(function(result){
-			layer.msg('重置密码成功，该用户密码为：123456!', {icon:1,time:1000});
-			refresh();
+			if (result.status) {
+				layer.msg('重置密码成功，该用户密码为：123456!', {icon:1,time:1000}, function(){
+					refresh();
+				});
+			}	
 		}).fail(function(xhr, error){
 			alert('error');
 		});
@@ -138,14 +150,13 @@ function user_del(id){
 	layer.confirm('确认要删除改该用户吗？',function(index){
 		handleAjax('userManage.do?method=delUser&id='+ id).done(function(result){
 			if (result.status) {
-				layer.msg('已删除!', {icon:1,time:1000});
-				refresh();
-			} else {
-				layer.msg(result.msg, {icon:1,time:1000});
-			}
-		}).fail(function(xhr, error){
+				layer.msg('已删除!', {icon:1,time:1000}, function(){
+					window.location.reload();
+				});
+			} 
+		}).fail(function(xhr,error){
 			alert('error');
-		});
+		});	
 	});
 }
 </script> 

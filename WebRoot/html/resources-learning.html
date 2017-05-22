@@ -62,10 +62,10 @@ $(function(){
 
 function loadPage(userId, type) {
 	// 先判断是否已有改成绩，若有则不能下载
-	handleAjax('/score.do?method=find&id=' + userId).done(function(result) {
-		if(result.status) {
+	handleAjax('score.do?method=isScore&userId=' + userId+"&type="+type).done(function(result) {
+		if(result.data) {
 			//无成绩，随机生成一个资源
-			handleAjax('/score.do?method=random&type=' + type).done(function(result) {
+			handleAjax('resourceDoc.do?method=random&type=' + type).done(function(result) {
 				var data = result.data;
 				$('#resourceName').val(data.resourceName);
 				$('#resourceDescription').val(data.resourceDescription);
