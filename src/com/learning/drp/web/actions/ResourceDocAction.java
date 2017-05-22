@@ -50,7 +50,7 @@ public class ResourceDocAction extends DispatchAction{
 				map.put("id", en.getId());
 				map.put("resourceName", en.getResourceName());
 				map.put("resourceDescription", en.getResourceDescription());
-				map.put("createDate", en.getCraeteTime());
+				map.put("createDate", en.getCreateTime());
 				map.put("realname", userManageService.findById(en.getUserId()).getRealname());
 				list.add(map);
 			}

@@ -3,8 +3,12 @@ package com.learning.drp.service.impl;
 import java.sql.Date;
 import java.util.List;
 
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import com.learning.drp.domain.Resourcedoc;
 import com.learning.drp.domain.User;
 import com.learning.drp.service.UserManageService;
 
@@ -42,6 +46,21 @@ public class UserManageServiceImpl extends HibernateDaoSupport implements UserMa
 		List<User> list = getHibernateTemplate().find(hql);
 		return list;
 	}
-	
-   
+
+	@Override
+	public User findByUserName(String username) {
+		String hql = "from User where username= '"+username+"'";
+		Query query = this.getSession().createQuery(hql);
+		User user=new User();
+		List<User> list = (List<User>) query.list();
+		try {
+			for(User user2:list){
+				user=user2;
+			}
+			return user;
+			
+	      }catch(HibernateException e){
+		throw e;
+	}
+	}
 }

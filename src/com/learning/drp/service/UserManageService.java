@@ -35,4 +35,9 @@ public interface UserManageService {
      * 查询人员列表
      */
     public List<User> findList(int type);
+    
+    /*
+     * 通过用户名查询用户
+     */
+    public User findByUserName(String username);
 }

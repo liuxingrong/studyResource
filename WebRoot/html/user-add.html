@@ -66,7 +66,6 @@
 <script type="text/javascript">
 $(function(){
 	var type = getUrlParam('type');
-    alert(type)
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
@@ -107,8 +106,12 @@ $(function(){
 });
 
 function add(){
+	var type = getUrlParam('type');
 	// 1.判断该username是否可用，若不存在则可用
-	handleAjax('/user.do?method=isRegister?username=' + $('#username').val()).done(function(result){
+	       var user= {
+				username: $('#username').val(),
+			}
+	    handleAjax('userManage.do?method=isRegister',user).done(function(result){
 		if (result.status) {
 			// 添加用户
 			var params = {
@@ -117,12 +120,12 @@ function add(){
 				sex: $('input:radio[name="sex"]:checked').val(),
 				tel: $('#tel').val(),
 				email: $('#email').val(),
+				type:type,
 			}
-			handleAjax('/user.do?method=add', params).done(function(result){
+			handleAjax('userManage.do?method=addUser', params).done(function(result){
 				if(result.status){
-					layer.msg('添加成功!', {icon:1,time:1000}, function(){
-						refresh();
-					});
+					layer.msg('添加成功!', {icon:1,time:1000});
+					refresh();
 				}
 			}).fail(function(xhr, error){
 				alert('error');
