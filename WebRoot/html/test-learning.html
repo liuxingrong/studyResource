@@ -31,7 +31,7 @@
 		</div>
         <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span></label>
-			<div class="formControls col-xs-8 col-sm-9" id="download">
+			<div class="formControls col-xs-8 col-sm-9" id="downloadDiv">
                 <a id='download' title="下载" download="" href="" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
 			</div>
 		</div>
@@ -72,7 +72,7 @@ function loadPage(userId, type) {
 			})
 		}else{
 			//有成绩,不能下载
-			$('#download').html('你已有成绩，不能下载！')
+			$('#downloadDiv').html('你已有成绩，不能下载！')
 		}
 	}).fail(function(xhr, error){
 		alert('error')
