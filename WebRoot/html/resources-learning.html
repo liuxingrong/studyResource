@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>权重管理</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -19,23 +20,25 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span><span id='title'></span></label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="部署过程回顾" id="name" readonly>
+				<input type="text" class="input-text" value="部署过程回顾" id="resourceName" readonly>
 			</div>
 		</div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>描述</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea id="description" value="详情描述" cols="4" rows="50" class="textarea" readonly></textarea>
+				<textarea id="resourceDescription" value="详情描述" cols="4" rows="50" class="textarea" readonly></textarea>
 			</div>
 		</div>
         <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span></label>
-			<div class="formControls col-xs-8 col-sm-9" id="download">
-                <a title="下载" download="docs" href="http://img04.tooopen.com/images/20131115/sy_47505221718.jpg" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
+			<div class="formControls col-xs-8 col-sm-9" id="downloadDiv">
+                <a id='download' title="下载" download="" href="" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i>下载</a>
 			</div>
 		</div>
 	</form>
 </article>
+</body>
+</html>
 
 <script type="text/javascript">
 $(function(){
@@ -50,9 +53,35 @@ $(function(){
          $('#title').html('实践任务名称');
      }
 
-     // 先判断是否已有改成绩，若有则不能下载
+	 setTimeout(function(){
+        var userId = user.id;
+        loadPage(userId, type);
+    }, 200);
+     
 });
+
+function loadPage(userId, type) {
+	// 先判断是否已有改成绩，若有则不能下载
+	handleAjax('score.do?method=isScore&userId=' + userId+"&type="+type).done(function(result) {
+		if(result.data) {
+			//无成绩，随机生成一个资源
+			handleAjax('resourceDoc.do?method=random&type=' + type).done(function(result) {
+				var data = result.data;
+				$('#resourceName').val(data.resourceName);
+				$('#resourceDescription').val(data.resourceDescription);
+				$('#download').attr('download', data.resourcePath.split('*')[1].split('.')[0]);
+				$('#download').attr('href', '/learningResources/upload/' + data.resourcePath);
+			}).fail(function(xhr, error){
+				alert('error')
+			})
+		}else{
+			//有成绩,不能下载
+			$('#downloadDiv').html('你已有成绩，不能下载！')
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 </script> 
-<!--/请在上方写此页面业务相关的脚本-->
-</body>
-</html>
+

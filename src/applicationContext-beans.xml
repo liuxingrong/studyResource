@@ -13,8 +13,21 @@
 	<bean id="resourceDocService" class="com.learning.drp.service.impl.ResourceDocServiceImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
+	<bean id="scoreService" class="com.learning.drp.service.impl.ScoreServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean id="userManageService" class="com.learning.drp.service.impl.UserManageServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="studylinkService" class="com.learning.drp.service.impl.StudylinkServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="testdocService" class="com.learning.drp.service.impl.TestdocServiceImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="weightsService" class="com.learning.drp.service.impl.WeightsServiceImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 </beans>

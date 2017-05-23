@@ -31,7 +31,7 @@
 				<td>
                     <a title="下载" href="javascript:;" onclick="resources_download()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>
                     <a title="编辑" href="javascript:;" onclick="resources_edit()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                    <a title="删除" href="javascript:;" onclick="resources_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    <a title="删除" href="javascript:;" onclick="resources_del()" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                 </td>
 			</tr>
 		</tbody>
@@ -49,23 +49,6 @@ $(function(){
 	$('#addButton').html(type == 1 ? '添加项目部署' : '添加实践任务');
 	$('#title').html(type == 1 ? '项目部署名称' : '实践任务名称');
 
-	var str = ''
-	for (var i=0; i<20; i++) {
-		str += 
-			'<tr class="text-c">' +
-				'<th width="100">资源名称</th>' +
-				'<td>这是世界泰斗的神奇世界</td>' +
-				'<td>2014-06-11</td>' +
-                '<td>tony-frank</td>' +
-				'<td class="td-manage">' +
-					'<a title="下载" download="docs" href="http://img04.tooopen.com/images/20131115/sy_47505221718.jpg" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
-					'<a title="编辑" href="javascript:;" onclick="resources_edit(2)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
-					'<a title="删除" href="javascript:;" onclick="resources_del(this)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
-				'</td>' +
-			'</tr>';
-	};
-	
-	$('tbody').html(str);
 	$('.table-sort').dataTable({
 		"aaSorting": [[ 2, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
@@ -74,8 +57,38 @@ $(function(){
 		  {"orderable":false,"aTargets":[4]}// 制定列不参与排序
 		]
 	});
+
+	loadList(type);
 	
 });
+/*资源-列表*/
+function loadList(type) {
+	handleAjax('resourceDoc.do?method=getData&type=' + type).done(function(result){
+		var data = result.data;
+		if (data == null) {
+			$('tbody').html('暂无数据');
+			return;
+		}
+		var str = ''
+		for (var i=0; i<data.length; i++) {
+			str += 
+				'<tr class="text-c">' +
+					'<th width="100">' + data[i].resourceName + '</th>' +
+					'<td>' + data[i].resourceDescription + '</td>' +
+					'<td>' + getDate(data[i].createTime) + '</td>' +
+					'<td>' + data[i].realname + '</td>' +
+					'<td class="td-manage">' +
+						'<a title="下载" download="' + data[i].resourcePath.split('*')[1].split('.')[0] + '" href="/learningResources/upload/' + data[i].resourcePath + '" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe640;</i></a>' +
+						'<a title="编辑" href="javascript:;" onclick="resources_edit(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>' +
+						'<a title="删除" href="javascript:;" onclick="resources_del(' + data[i].id + ')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>' +
+					'</td>' +
+				'</tr>';
+		};
+		$('tbody').html(str);
+	}).fail(function(xhr, error){
+		alert('error');
+	});
+}
 /*资源-添加*/
 function resources_add(){
 	layer_show('添加资源', 'resources-add.html?type=' + type, '600', '400');
@@ -85,20 +98,19 @@ function resources_edit(id){
 	layer_show('编辑资源', 'resources-modify.html?id=' + id + '&type=' + type, '600', '400');
 }
 /*资源-删除*/
-function resources_del(obj,id){
-	layer.confirm('确认要删除吗？',function(index){
-		$.ajax({
-			type: 'POST',
-			url: '',
-			dataType: 'json',
-			success: function(data){
-				$(obj).parents("tr").remove();
-				layer.msg('已删除!',{icon:1,time:1000});
-			},
-			error:function(data) {
-				console.log(data.msg);
-			},
-		});		
+function resources_del(id){
+	layer.confirm('确认要删除改该资源吗？',function(index){
+		handleAjax('resourceDoc.do?method=delete&id=' + id).done(function(result){
+			if (result.status) {
+				layer.msg('已删除!', {icon:1,time:1000}, function(){
+					window.location.reload();
+				});
+			} else {
+				layer.msg(result.msg, {icon:1,time:1000});
+			}
+		}).fail(function(xhr, error){
+			alert('error');
+		});
 	});
 }
 </script> 

@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>权重管理</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -48,7 +49,6 @@
 	</form>
 </article>
 
-
 <!--请在下方写此页面业务相关的脚本--> 
 <script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
@@ -56,7 +56,7 @@
 
 <script type="text/javascript">
 $(function(){
-    loadData();
+    loadPage();
 	$("#form").validate({
 		rules:{
 			study:{
@@ -85,8 +85,16 @@ $(function(){
 	});
 });
 
-function loadData() {
-    alert('load data...')
+function loadPage() {
+    handleAjax('/weights.do?method=find').done(function(result) {
+		var data = result.data;
+		$('#study').val(data.studyWeights);
+		$('#test').val(data.testWeights);
+		$('#project').val(data.projectWeights);
+		$('#practice').val(data.practiceWeights);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 
 function updateWeight() {
@@ -94,7 +102,21 @@ function updateWeight() {
 		$('#msg').html('总和不为1，请重新填写');
 		$('#msgDiv').show();
 	}else{
-		alert('updateWeight....')
+		var params = {
+			studyWeights: $('#study').val(),
+			testWeights: $('#test').val(),
+			projectWeights: $('#project').val(),
+			practiceWeights: $('#practice').val(),
+		};
+		handleAjax('/weights.do?method=update', params).done(function(result) {
+			if (result.status) {
+				layer.msg('修改成功!', {icon:1,time:1000}, function(){
+					window.location.reload();
+				});
+			}
+		}).fail(function(xhr, error){
+			alert('error')
+		})
 	}
 }
 </script> 

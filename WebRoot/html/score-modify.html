@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>修改试卷</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -57,6 +58,9 @@ $(function(){
 		increaseArea: '20%'
 	});
 
+	var id = getUrlParam('id');
+	loadPage(id);
+
 	$("#test-add").validate({
 		rules:{
 			study:{
@@ -80,13 +84,41 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-            var id = getUrlParam('id');
 			modify(id);
 		}
 	});
 });
 
+function loadPage(id) {
+	handleAjax('score.do?method=findScoreByUser&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#realname').val(data.realname);
+		$('#study').val(data.score1);
+		$('#test').val(data.score2);
+		$('#project').val(data.score3);
+		$('#practice').val(data.score4);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 function modify(id) {
-    alert(id)
+    var params = {
+		id: id,
+		type:0,
+		study: $('#study').val(),
+		test: $('#test').val(),
+		project: $('#project').val(),
+		practice: $('#practice').val(),
+	};
+	handleAjax('/score.do?method=updateStudy', params).done(function(result) {
+		if (result.status) {
+			layer.msg('修改成功!', {icon:1,time:1000}, function(){
+				refresh();
+			});
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 </script> 

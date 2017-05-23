@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>添加学习资源</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -50,6 +51,9 @@ $(function(){
 		radioClass: 'iradio-blue',
 		increaseArea: '20%'
 	});
+
+	var id = getUrlParam('id');
+	loadPage(id);
 	
 	$("#form-study-link-add").validate({
 		rules:{
@@ -67,13 +71,37 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			var id = getUrlParam('id');
 			modify(id);
 		}
 	});
 });
 
+function loadPage(id) {
+	handleAjax('studylink.do?method=find&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#name').val(data.linkName);
+		$('#description').val(data.linkDescription);
+		$('#link').val(data.linkUrl);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 function modify(id) {
-    alert('modify' + id);
+   	var params = {
+		id: id,
+		linkName: $('#name').val(),
+		linkDescription: $('#description').val(),
+		linkUrl: $('#link').val(),
+	};
+	handleAjax('studylink.do?method=update', params).done(function(result) {
+		if (result.status) {
+			layer.msg('修改成功!', {icon:1,time:1000}, function(){
+				refresh();
+			});
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 </script> 

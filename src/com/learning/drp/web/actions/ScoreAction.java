@@ -14,15 +14,21 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 
 import com.learning.drp.domain.Score;
+import com.learning.drp.domain.Weights;
 import com.learning.drp.service.ScoreService;
+import com.learning.drp.service.WeightsService;
 import com.learning.util.Result;
 import com.learning.util.Utils;
 
 public class ScoreAction extends DispatchAction{
 	private ScoreService scoreService;
-
+	private WeightsService weightsService;
 	public void setScoreService(ScoreService scoreService) {
 		this.scoreService = scoreService;
+	}
+
+	public void setWeightsService(WeightsService weightsService) {
+		this.weightsService = weightsService;
 	}
 
 	public void getData(ActionMapping mapping, ActionForm form,
@@ -32,7 +38,7 @@ public class ScoreAction extends DispatchAction{
 		Result result = new Result();
 		try{
 			List<Score> scoreList = scoreService.findAll(score);
-			if(scoreList.size()>0){
+			if(scoreList!=null){
 				result.setStatus(true);
 				result.setData(scoreList);
 				response.getWriter().write(Utils.ObjToJson(result));
@@ -143,9 +149,13 @@ public class ScoreAction extends DispatchAction{
 		response.setCharacterEncoding("utf-8");
 		Result result = new Result();
 		List<Map<String, Object>> list = scoreService.getUserScore();
-		if(list.size()>0){
+		Weights weights = weightsService.find(1);
+		if(list!=null){
+			Map<String, Object> map = new HashedMap();
+			map.put("score", list);
+			map.put("weight", weights);
 			result.setStatus(true);
-			result.setData(list);
+			result.setData(map);
 			response.getWriter().write(Utils.ObjToJson(result));
 		}else{
 			result.setStatus(false);
@@ -166,13 +176,13 @@ public class ScoreAction extends DispatchAction{
 	public ActionForward updateStudy(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
-		String userId = request.getParameter("userId");
+		String userId = request.getParameter("id");
 		String type = request.getParameter("type");
-		String studyScore = request.getParameter("studyScore");
-		String testScore = request.getParameter("testScore");
-		String resourceScore = request.getParameter("resourceScore");
-		String projectScore = request.getParameter("projectScore");
-		if(type.equals(1)){
+		String studyScore = request.getParameter("study");
+		String testScore = request.getParameter("test");
+		String resourceScore = request.getParameter("practice");
+		String projectScore = request.getParameter("project");
+		if(type.equals("1")){
 			studyScore = "0";
 			testScore = "0";
 			resourceScore = "0";
@@ -182,7 +192,7 @@ public class ScoreAction extends DispatchAction{
 			Score entity = new Score();
 			entity.setUserId(Integer.valueOf(userId));
 			List<Score> list = scoreService.findAll(entity);
-			if(list.size()<=0){
+			if(list==null){
 				throw new Exception("修改失败！");
 			}
 			for(int i=0;i<list.size();i++){
@@ -220,7 +230,7 @@ public class ScoreAction extends DispatchAction{
 			Score entity = new Score();
 			entity.setUserId(Integer.valueOf(userId));
 			List<Score> list = scoreService.findAll(entity);
-			if(list.size()<=0){
+			if(list==null){
 				throw new Exception("删除失败！");
 			}
 			for(int i=0;i<list.size();i++){
@@ -247,31 +257,38 @@ public class ScoreAction extends DispatchAction{
 	public ActionForward findScoreByUser(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		response.setCharacterEncoding("utf-8");
-		String userId = request.getParameter("userId");
+		String userId = request.getParameter("id");
 		Result result = new Result();
+		Weights weights = weightsService.find(1);
 		try{
 			Score entity = new Score();
 			entity.setUserId(Integer.valueOf(userId));
 			List<Score> list = scoreService.findAll(entity);
-			if(list.size()<=0){
+			if(list==null){
 				throw new Exception("获取数据失败！");
 			}
 			Map<String, Object> map = new HashedMap();
+			int sum = 0;
 			for(int i=0;i<list.size();i++){
 				Score score = list.get(i);
 				if(score.getType()==1){
 					map.put("score1", score.getScore());
+					sum += score.getScore()*weights.getStudyWeights();
 				}
 				if(score.getType()==2){
 					map.put("score2", score.getScore());
+					sum +=score.getScore()*weights.getTestWeights();
 				}
 				if(score.getType()==3){
 					map.put("score3", score.getScore());
+					sum +=score.getScore()*weights.getProjectWeights();
 				}
 				if(score.getType()==4){
 					map.put("score4", score.getScore());
+					sum +=score.getScore()*weights.getPracticeWeights();
 				}
 			}
+			map.put("score", sum);
 			result.setStatus(true);
 			result.setData(map);
 			response.getWriter().write(Utils.ObjToJson(result));
@@ -279,8 +296,35 @@ public class ScoreAction extends DispatchAction{
 			result.setStatus(false);
 			log.error(e.getMessage());
 			result.setData(e.getMessage());
-			response.getWriter().write(Utils.ObjToJson(new Result(false, "删除失败！")));
+			response.getWriter().write(Utils.ObjToJson(new Result(false, "获取失败！")));
 		}
+		return null;
+	}
+	
+	public ActionForward isScore(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)throws Exception{
+		response.setCharacterEncoding("utf-8");
+		String userId = request.getParameter("userId");
+		String type = request.getParameter("type");
+		Score score = new Score();
+		score.setUserId(Integer.parseInt(userId));
+		score.setType(Integer.parseInt(type));
+		List<Score> list = scoreService.findAll(score);
+		Result result = new Result();
+		if(list!=null){
+			score = list.get(0);
+			if(score.getScore()>0){
+				result.setStatus(true);
+				result.setData(false);
+			}else{
+				result.setStatus(true);
+				result.setData(true);
+			}
+		}else{
+			result.setStatus(true);
+			result.setData(true);
+		}
+		response.getWriter().write(Utils.ObjToJson(result));
 		return null;
 	}
 }

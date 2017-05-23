@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>添加用户</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -26,16 +27,12 @@
 			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>性别：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="radio-box">
-					<input name="sex" type="radio" id="gender" checked>
+					<input type="radio" name="sex" value="1" checked>
 					<label for="sex-1">男</label>
 				</div>
 				<div class="radio-box">
-					<input type="radio" id="sex-2" name="sex">
+					<input type="radio" name="sex" value="2">
 					<label for="sex-2">女</label>
-				</div>
-				<div class="radio-box">
-					<input type="radio" id="sex-3" name="sex">
-					<label for="sex-3">保密</label>
 				</div>
 			</div>
 		</div>
@@ -48,7 +45,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-3 col-sm-3" style="text-align: right;"><span class="c-red">*</span>邮箱：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" placeholder="@" name="mail" id="mail">
+				<input type="text" class="input-text" placeholder="@" name="email" id="email">
 			</div>
 		</div>
 		<div class="row cl">
@@ -58,18 +55,15 @@
 		</div>
 	</form>
 </article>
-</body>
-</html>
-
 
 <!--请在下方写此页面业务相关的脚本--> 
 <script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="/learningResources/lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
+
 $(function(){
 	var type = getUrlParam('type');
-    alert(type)
 	$('.skin-minimal input').iCheck({
 		checkboxClass: 'icheckbox-blue',
 		radioClass: 'iradio-blue',
@@ -85,7 +79,7 @@ $(function(){
 			},
             realname:{
 				required:true,
-				minlength:4,
+				minlength:2,
 				maxlength:10
 			},
 			sex:{
@@ -110,6 +104,35 @@ $(function(){
 });
 
 function add(){
-	
+	var type = getUrlParam('type');
+	// 1.判断该username是否可用，若不存在则可用
+	    var user= {
+			username: $('#username').val(),
+		}
+	    handleAjax('userManage.do?method=isRegister',user).done(function(result){
+		if (result.status) {
+			// 添加用户
+			var params = {
+				username: $('#username').val(),
+				realname: $('#realname').val(),
+				sex: $('input:radio[name="sex"]:checked').val(),
+				tel: $('#tel').val(),
+				email: $('#email').val(),
+				type:type,
+			}
+			handleAjax('userManage.do?method=addUser', params).done(function(result){
+				if (result.status) {
+					    layer.msg('添加成功!', {icon:1,time:1000}, function(){
+						refresh();
+					});
+				}
+			}).fail(function(xhr, error){
+				alert('error')
+		});	
+		}
+	    });		
 }
 </script> 
+
+</body>
+</html>

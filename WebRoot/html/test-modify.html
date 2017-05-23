@@ -2,6 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>修改试卷</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -51,6 +52,9 @@ $(function(){
 		increaseArea: '20%'
 	});
 
+	var id = getUrlParam('id');
+	loadPage(id);
+
 	$("#test-add").validate({
 		rules:{
 			name:{
@@ -70,13 +74,37 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-			var id = getUrlParam('id');
 			modify(id);
 		}
 	});
 });
 
+function loadPage(id) {
+	handleAjax('testdoc.do?method=find&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#name').val(data.testDocName);
+		$('#description').val(data.testDocDescription);
+		$('#answer').val(data.testDocAnswer)
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
 function modify(id) {
-    alert(id)
+    var params = {
+		id: id,
+		testDocName: $('#name').val(),
+		testDocDescription: $('#description').val(),
+		testDocAnswer: $('#answer').val(),
+	};
+	handleAjax('testdoc.do?method=update', params).done(function(result) {
+		if (result.status) {
+			layer.msg('修改成功!', {icon:1,time:1000}, function(){
+				refresh();
+			});
+		}
+	}).fail(function(xhr, error){
+		alert('error')
+	})
 }
 </script> 

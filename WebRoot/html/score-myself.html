@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<meta charset="utf-8" />
 <title>权重管理</title>
 <script src="/learningResources/static/common/header.js"></script>
 <script src="/learningResources/static/common/utils.js"></script>
@@ -37,7 +38,7 @@
         <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>总分数：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-                <span id="practice">86</span>
+                <span id="all">86</span>
 			</div>
 		</div>
         <div class="row cl" id='msgDiv' style='display: none;'>
@@ -48,16 +49,38 @@
 		</div>
 	</form>
 </article>
+</body>
+</html>
+
 
 <script type="text/javascript">
 $(function(){
     setTimeout(function(){
         var userId = user.id;
-        alert(userId + '  load data......');
-    }, 200);
-     
+	/* 	getWeights(userId); */
+        loadPage(userId);
+    }, 200);   
 });
+
+function getWeights(userId) {
+	handleAjax('/weights.do?method=find').done(function(result) {
+		loadPage(userId, result.data);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
+
+function loadPage(userId, weights) {
+	var id =userId;
+	handleAjax('/score.do?method=findScoreByUser&id=' + id).done(function(result) {
+		var data = result.data;
+		$('#study').html(data.score1);
+		$('#test').html(data.score2);
+		$('#project').html(data.score3);
+		$('#practice').html(data.score4);
+		$('#all').html(data.score);
+	}).fail(function(xhr, error){
+		alert('error')
+	})
+}
 </script> 
-<!--/请在上方写此页面业务相关的脚本-->
-</body>
-</html>

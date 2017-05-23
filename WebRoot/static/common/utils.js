@@ -8,9 +8,24 @@ function getUrlParam(name) {
 // 利用了jquery延迟对象回调的方式对ajax封装，使用done()，fail()，always()等方法进行链式回调操作
 function handleAjax(url, param, type) {
 	return $.ajax({
-		url: url,
+		url: rootPath + url,
 		data: param || {},
 		type: type || 'GET',
 		dataType: 'json',
 	});
+}
+
+// 刷新
+function refresh() {
+	window.parent.location.reload();
+	var index = parent.layer.getFrameIndex(window.name);
+	parent.layer.close(index);;
+}
+
+// 根据createTime获取时间（日期）
+function getDate(createTime) {
+	if (createTime == null) {
+		return "";
+	}
+	return createTime.year + '-' + (createTime.month + 1) + '-' + createTime.day;
 }
