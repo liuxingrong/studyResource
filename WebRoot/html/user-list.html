@@ -81,7 +81,7 @@ function loadList(type) {
 				'<tr class="text-c">' +
 					'<th>' + data[i].username + '</th>' +
 					'<td>' + data[i].realname + '</td>' +
-					'<td>'+ data[i].gender + '</td>' +
+					'<td>'+ (data[i].gender==1 ? "男" : "女")+'</td>' +
 					'<td>'+ data[i].tel + '</td>' +
 					'<td>'+ data[i].email + '</td>' +
 					'<td>'+ getDate(data[i].createTime) + '</td>' +
